@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Spirit.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity</a> &gt; <span class="el_source">Spirit.java</span></div><h1>Spirit.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity;
+
+import al.artofsoul.batbatgame.entity.enemies.RedEnergy;
+import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Spirit extends Enemy {
+
+    private BufferedImage[] sprites;
+    private Player player;
+    private ArrayList&lt;Enemy&gt; enemies;
+    private ArrayList&lt;Explosion&gt; explosions;
+
+    private boolean active;
+    private boolean finalAttack;
+
+    private int step;
+    private int stepCount;
+
+    // attack pattern
+<span class="nc" id="L32">    private int[] steps = {0, 1, 0, 1, 2, 1, 0, 2, 1, 2};</span>
+
+    //// attacks:
+    // fly around throwing dark energy (0)
+    // floor sweep (1)
+    // crash down on floor to create shockwave (2)
+    //// special:
+    // after half hp, create shield
+    // after quarter hp, bullet hell
+
+    private RedEnergy[] shield;
+    private double ticks;
+
+    public Spirit(TileMap tm, Player p, List&lt;Enemy&gt; enemies, List&lt;Explosion&gt; explosions) {
+
+<span class="nc" id="L47">        super(tm);</span>
+<span class="nc" id="L48">        player = p;</span>
+<span class="nc" id="L49">        this.enemies = (ArrayList&lt;Enemy&gt;) enemies;</span>
+<span class="nc" id="L50">        this.explosions = (ArrayList&lt;Explosion&gt;) explosions;</span>
+
+<span class="nc" id="L52">        width = 40;</span>
+<span class="nc" id="L53">        height = 40;</span>
+<span class="nc" id="L54">        cwidth = 30;</span>
+<span class="nc" id="L55">        cheight = 30;</span>
+
+<span class="nc" id="L57">        health = maxHealth = 80;</span>
+
+<span class="nc" id="L59">        moveSpeed = 1.4;</span>
+
+        try {
+<span class="nc" id="L62">            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream(&quot;/Sprites/Enemies/Spirit.gif&quot;));</span>
+<span class="nc" id="L63">            sprites = new BufferedImage[4];</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            for (int i = 0; i &lt; sprites.length; i++) {</span>
+<span class="nc" id="L65">                sprites[i] = spritesheet.getSubimage(i * width, 0, width, height);</span>
+            }
+<span class="nc" id="L67">        } catch (Exception e) {</span>
+<span class="nc" id="L68">            LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());</span>
+        }
+
+<span class="nc" id="L71">        damage = 1;</span>
+
+<span class="nc" id="L73">        animation.setFrames(sprites);</span>
+<span class="nc" id="L74">        animation.setDelay(1);</span>
+
+<span class="nc" id="L76">        shield = new RedEnergy[2];</span>
+
+<span class="nc" id="L78">        step = 0;</span>
+<span class="nc" id="L79">        stepCount = 0;</span>
+
+<span class="nc" id="L81">    }</span>
+
+    public void setActive() {
+<span class="nc" id="L84">        active = true;</span>
+<span class="nc" id="L85">    }</span>
+
+    @Override
+    public void update() {
+
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (health == 0)</span>
+<span class="nc" id="L91">            return;</span>
+
+        // restart attack pattern
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (step == steps.length) {</span>
+<span class="nc" id="L95">            step = 0;</span>
+        }
+
+<span class="nc" id="L98">        ticks++;</span>
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (flinching) {</span>
+<span class="nc" id="L101">            flinchCount++;</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if (flinchCount == 8)</span>
+<span class="nc" id="L103">                flinching = false;</span>
+        }
+
+<span class="nc" id="L106">        x += dx;</span>
+<span class="nc" id="L107">        y += dy;</span>
+
+<span class="nc" id="L109">        animation.update();</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (!active)</span>
+<span class="nc" id="L112">            return;</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (updateSpecial())</span>
+<span class="nc" id="L115">            return;</span>
+
+<span class="nc" id="L117">        updateAttacks();</span>
+
+<span class="nc" id="L119">    }</span>
+
+    private void updateAttacks() {
+        ////////////
+        // attacks
+        ////////////
+
+<span class="nc bnc" id="L126" title="All 3 branches missed.">        switch (steps[step]) {</span>
+            case 0:
+<span class="nc" id="L128">                dropBombs();</span>
+<span class="nc" id="L129">                break;</span>
+            case 1:
+<span class="nc" id="L131">                floorSweep();</span>
+<span class="nc" id="L132">                break;</span>
+            default:
+<span class="nc" id="L134">                shockwave();</span>
+                break;
+
+        }
+<span class="nc" id="L138">    }</span>
+
+    private void shockwave() {
+<span class="nc" id="L141">        stepCount++;</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (stepCount == 1) {</span>
+<span class="nc" id="L143">            x = tileMap.getWidth() / 2.0;</span>
+<span class="nc" id="L144">            y = 40;</span>
+        }
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (stepCount == 60) {</span>
+<span class="nc" id="L147">            dy = 7;</span>
+        }
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (y &gt;= tileMap.getHeight() - 30) {</span>
+<span class="nc" id="L150">            dy = 0;</span>
+        }
+<span class="nc bnc" id="L152" title="All 8 branches missed.">        if (stepCount &gt; 60 &amp;&amp; stepCount &lt; 120 &amp;&amp; stepCount % 5 == 0 &amp;&amp; dy == 0) {</span>
+<span class="nc" id="L153">            RedEnergy de = new RedEnergy(tileMap);</span>
+<span class="nc" id="L154">            de.setPosition(x, y);</span>
+<span class="nc" id="L155">            de.setVector(-3, 0);</span>
+<span class="nc" id="L156">            enemies.add(de);</span>
+<span class="nc" id="L157">            de = new RedEnergy(tileMap);</span>
+<span class="nc" id="L158">            de.setPosition(x, y);</span>
+<span class="nc" id="L159">            de.setVector(3, 0);</span>
+<span class="nc" id="L160">            enemies.add(de);</span>
+        }
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        if (stepCount == 120) {</span>
+<span class="nc" id="L163">            stepCount = 0;</span>
+<span class="nc" id="L164">            step++;</span>
+        }
+<span class="nc" id="L166">    }</span>
+
+    private void floorSweep() {
+<span class="nc" id="L169">        stepCount++;</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (stepCount == 1) {</span>
+<span class="nc" id="L171">            explosions.add(new Explosion(tileMap, (int) x, (int) y));</span>
+<span class="nc" id="L172">            x = -9000;</span>
+<span class="nc" id="L173">            y = 9000;</span>
+<span class="nc" id="L174">            dx = dy = 0;</span>
+        }
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (stepCount == 60) {</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            if (player.getx() &gt; tileMap.getWidth() / 2) {</span>
+<span class="nc" id="L178">                x = 30;</span>
+<span class="nc" id="L179">                y = tileMap.getHeight() - 60.0;</span>
+<span class="nc" id="L180">                dx = 4;</span>
+<span class="nc" id="L181">            } else {</span>
+<span class="nc" id="L182">                x = tileMap.getWidth() - 30.0;</span>
+<span class="nc" id="L183">                y = tileMap.getHeight() - 60.0;</span>
+<span class="nc" id="L184">                dx = -4;</span>
+            }
+<span class="nc" id="L186">            explosions.add(new Explosion(tileMap, (int) x, (int) y));</span>
+        }
+<span class="nc bnc" id="L188" title="All 8 branches missed.">        if ((dx == -4 &amp;&amp; x &lt; 30) || (dx == 4 &amp;&amp; x &gt; tileMap.getWidth() - 30)) {</span>
+<span class="nc" id="L189">            stepCount = 0;</span>
+<span class="nc" id="L190">            step++;</span>
+<span class="nc" id="L191">            dx = dy = 0;</span>
+        }
+<span class="nc" id="L193">    }</span>
+
+    private void dropBombs() {
+<span class="nc" id="L196">        stepCount++;</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">        if (y &gt; 60) {</span>
+<span class="nc" id="L198">            dy = -4;</span>
+        }
+<span class="nc bnc" id="L200" title="All 2 branches missed.">        if (y &lt; 60) {</span>
+<span class="nc" id="L201">            dy = 0;</span>
+<span class="nc" id="L202">            y = 60;</span>
+<span class="nc" id="L203">            dx = -1;</span>
+        }
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        if (y == 60) {</span>
+<span class="nc bnc" id="L206" title="All 4 branches missed.">            if (dx == -1 &amp;&amp; x &lt; 60) {</span>
+<span class="nc" id="L207">                dx = 1;</span>
+            }
+<span class="nc bnc" id="L209" title="All 4 branches missed.">            if (dx == 1 &amp;&amp; x &gt; tileMap.getWidth() - 60) {</span>
+<span class="nc" id="L210">                dx = -1;</span>
+            }
+        }
+<span class="nc bnc" id="L213" title="All 2 branches missed.">        if (stepCount % 60 == 0) {</span>
+<span class="nc" id="L214">            RedEnergy de = new RedEnergy(tileMap);</span>
+<span class="nc" id="L215">            de.setType(RedEnergy.GRAVITY);</span>
+<span class="nc" id="L216">            de.setPosition(x, y);</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">            int dir = Math.random() &lt; 0.5 ? 1 : -1;</span>
+<span class="nc" id="L218">            de.setVector(dir, 0);</span>
+<span class="nc" id="L219">            enemies.add(de);</span>
+        }
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if (stepCount == 559) {</span>
+<span class="nc" id="L222">            step++;</span>
+<span class="nc" id="L223">            stepCount = 0;</span>
+<span class="nc" id="L224">            right = left = false;</span>
+        }
+<span class="nc" id="L226">    }</span>
+
+    private boolean updateSpecial() {
+        ////////////
+        // special
+        ////////////
+<span class="nc bnc" id="L232" title="All 2 branches missed.">        if (health &lt;= maxHealth / 2) {</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">            if (shield[0] == null) {</span>
+<span class="nc" id="L234">                shield[0] = new RedEnergy(tileMap);</span>
+<span class="nc" id="L235">                shield[0].setPermanent(true);</span>
+<span class="nc" id="L236">                enemies.add(shield[0]);</span>
+            }
+<span class="nc bnc" id="L238" title="All 2 branches missed.">            if (shield[1] == null) {</span>
+<span class="nc" id="L239">                shield[1] = new RedEnergy(tileMap);</span>
+<span class="nc" id="L240">                shield[0].setPermanent(true);</span>
+<span class="nc" id="L241">                enemies.add(shield[1]);</span>
+            }
+<span class="nc" id="L243">            double pos = ticks / 32;</span>
+<span class="nc" id="L244">            shield[0].setPosition(x + 30 * Math.sin(pos), y + 30 * Math.cos(pos));</span>
+<span class="nc" id="L245">            pos += 3.1415;</span>
+<span class="nc" id="L246">            shield[1].setPosition(x + 30 * Math.sin(pos), y + 30 * Math.cos(pos));</span>
+        }
+
+<span class="nc bnc" id="L249" title="All 4 branches missed.">        if (!finalAttack &amp;&amp; health &lt;= maxHealth / 4) {</span>
+<span class="nc" id="L250">            stepCount = 0;</span>
+<span class="nc" id="L251">            finalAttack = true;</span>
+        }
+
+<span class="nc bnc" id="L254" title="All 2 branches missed.">        if (finalAttack) {</span>
+<span class="nc" id="L255">            stepCount++;</span>
+<span class="nc bnc" id="L256" title="All 2 branches missed.">            if (stepCount == 1) {</span>
+<span class="nc" id="L257">                explosions.add(new Explosion(tileMap, (int) x, (int) y));</span>
+<span class="nc" id="L258">                x = -9000;</span>
+<span class="nc" id="L259">                y = 9000;</span>
+<span class="nc" id="L260">                dx = dy = 0;</span>
+            }
+<span class="nc bnc" id="L262" title="All 2 branches missed.">            if (stepCount == 60) {</span>
+<span class="nc" id="L263">                x = tileMap.getWidth() / 2.0;</span>
+<span class="nc" id="L264">                y = tileMap.getHeight() / 2.0;</span>
+<span class="nc" id="L265">                explosions.add(new Explosion(tileMap, (int) x, (int) y));</span>
+            }
+<span class="nc bnc" id="L267" title="All 4 branches missed.">            if (stepCount &gt;= 90 &amp;&amp; stepCount % 30 == 0) {</span>
+<span class="nc" id="L268">                RedEnergy de = new RedEnergy(tileMap);</span>
+<span class="nc" id="L269">                de.setPosition(x, y);</span>
+<span class="nc" id="L270">                de.setVector(3 * Math.sin(stepCount / 32.0), 3 * Math.cos(stepCount / 32.0));</span>
+<span class="nc" id="L271">                de.setType(RedEnergy.BOUNCE);</span>
+<span class="nc" id="L272">                enemies.add(de);</span>
+            }
+<span class="nc" id="L274">            return true;</span>
+        }
+
+<span class="nc" id="L277">        return false;</span>
+    }
+
+    @Override
+    public void draw(Graphics2D g) {
+<span class="nc bnc" id="L282" title="All 4 branches missed.">        if (flinching &amp;&amp; flinchCount % 4 &lt; 2) {</span>
+<span class="nc" id="L283">            return;</span>
+        }
+<span class="nc" id="L285">        super.draw(g);</span>
+<span class="nc" id="L286">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

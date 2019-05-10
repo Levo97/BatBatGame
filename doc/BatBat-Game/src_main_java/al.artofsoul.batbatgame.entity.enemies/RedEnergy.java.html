@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RedEnergy.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity.enemies</a> &gt; <span class="el_source">RedEnergy.java</span></div><h1>RedEnergy.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity.enemies;
+
+import al.artofsoul.batbatgame.entity.Enemy;
+import al.artofsoul.batbatgame.handlers.Content;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import java.awt.image.BufferedImage;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class RedEnergy extends Enemy {
+
+    public static final int VECTOR = 0;
+    public static final int GRAVITY = 1;
+    public static final int BOUNCE = 2;
+    private BufferedImage[] startSprites;
+    private BufferedImage[] sprites;
+    private boolean start;
+    private boolean permanent;
+<span class="nc" id="L22">    private int type = 0;</span>
+<span class="nc" id="L23">    private int bounceCount = 0;</span>
+
+    public RedEnergy(TileMap tm) {
+
+<span class="nc" id="L27">        super(tm);</span>
+
+<span class="nc" id="L29">        health = maxHealth = 1;</span>
+
+<span class="nc" id="L31">        width = 20;</span>
+<span class="nc" id="L32">        height = 20;</span>
+<span class="nc" id="L33">        cwidth = 12;</span>
+<span class="nc" id="L34">        cheight = 12;</span>
+
+<span class="nc" id="L36">        damage = 1;</span>
+<span class="nc" id="L37">        moveSpeed = 5;</span>
+
+<span class="nc" id="L39">        startSprites = Content.getRedEnergy()[0];</span>
+<span class="nc" id="L40">        sprites = Content.getRedEnergy()[1];</span>
+
+<span class="nc" id="L42">        animation.setFrames(startSprites);</span>
+<span class="nc" id="L43">        animation.setDelay(2);</span>
+
+<span class="nc" id="L45">        start = true;</span>
+<span class="nc" id="L46">        flinching = true;</span>
+<span class="nc" id="L47">        permanent = false;</span>
+
+<span class="nc" id="L49">    }</span>
+
+    public void setType(int i) {
+<span class="nc" id="L52">        type = i;</span>
+<span class="nc" id="L53">    }</span>
+
+    public void setPermanent(boolean b) {
+<span class="nc" id="L56">        permanent = b;</span>
+<span class="nc" id="L57">    }</span>
+
+    @Override
+    public void update() {
+
+<span class="nc bnc" id="L62" title="All 4 branches missed.">        if (start &amp;&amp; animation.hasPlayedOnce()) {</span>
+<span class="nc" id="L63">            animation.setFrames(sprites);</span>
+<span class="nc" id="L64">            animation.setNumFrames(3);</span>
+<span class="nc" id="L65">            animation.setDelay(2);</span>
+<span class="nc" id="L66">            start = false;</span>
+        }
+
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if (type == VECTOR) {</span>
+<span class="nc" id="L70">            x += dx;</span>
+<span class="nc" id="L71">            y += dy;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        } else if (type == GRAVITY) {</span>
+<span class="nc" id="L73">            dy += 0.2;</span>
+<span class="nc" id="L74">            x += dx;</span>
+<span class="nc" id="L75">            y += dy;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        } else if (type == BOUNCE) {</span>
+<span class="nc" id="L77">            double dx2 = dx;</span>
+<span class="nc" id="L78">            double dy2 = dy;</span>
+<span class="nc" id="L79">            checkTileMapCollision();</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if (dx == 0) {</span>
+<span class="nc" id="L81">                dx = -dx2;</span>
+<span class="nc" id="L82">                bounceCount++;</span>
+            }
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if (dy == 0) {</span>
+<span class="nc" id="L85">                dy = -dy2;</span>
+<span class="nc" id="L86">                bounceCount++;</span>
+            }
+<span class="nc" id="L88">            x += dx;</span>
+<span class="nc" id="L89">            y += dy;</span>
+        }
+
+        // update animation
+<span class="nc" id="L93">        animation.update();</span>
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!permanent) {</span>
+<span class="nc bnc" id="L96" title="All 8 branches missed.">            if (x &lt; 0 || x &gt; tileMap.getWidth() || y &lt; 0 || y &gt; tileMap.getHeight()) {</span>
+<span class="nc" id="L97">                remove = true;</span>
+            }
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (bounceCount == 3) {</span>
+<span class="nc" id="L100">                remove = true;</span>
+            }
+        }
+
+<span class="nc" id="L104">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

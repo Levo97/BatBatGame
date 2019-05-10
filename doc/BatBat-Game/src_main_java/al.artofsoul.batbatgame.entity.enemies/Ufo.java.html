@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Ufo.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity.enemies</a> &gt; <span class="el_source">Ufo.java</span></div><h1>Ufo.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity.enemies;
+
+import al.artofsoul.batbatgame.entity.Enemy;
+import al.artofsoul.batbatgame.entity.Player;
+import al.artofsoul.batbatgame.handlers.Content;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Ufo extends Flyer {
+
+    private static final int IDLE = 0;
+    private static final int JUMPING = 1;
+    private static final int ATTACKING = 2;
+    private Player player;
+    private ArrayList&lt;Enemy&gt; enemies;
+    private BufferedImage[] idleSprites;
+    private BufferedImage[] jumpSprites;
+    private BufferedImage[] attackSprites;
+    private int attackTick;
+<span class="nc" id="L28">    private int attackDelay = 30;</span>
+    private int step;
+
+    public Ufo(TileMap tm, Player p, List&lt;Enemy&gt; en) {
+
+<span class="nc" id="L33">        super(tm, FlyerType.UFO);</span>
+<span class="nc" id="L34">        player = p;</span>
+<span class="nc" id="L35">        enemies = (ArrayList&lt;Enemy&gt;) en;</span>
+
+<span class="nc" id="L37">        idleSprites = Content.getUfo()[0];</span>
+<span class="nc" id="L38">        jumpSprites = Content.getUfo()[1];</span>
+<span class="nc" id="L39">        attackSprites = Content.getUfo()[2];</span>
+
+<span class="nc" id="L41">        animation.setFrames(idleSprites);</span>
+<span class="nc" id="L42">        animation.setDelay(-1);</span>
+
+<span class="nc" id="L44">        attackTick = 0;</span>
+
+<span class="nc" id="L46">    }</span>
+
+    @Override
+    public void update() {
+
+        // check if done flinching
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (flinching) {</span>
+<span class="nc" id="L53">            flinchCount++;</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            if (flinchCount == 6)</span>
+<span class="nc" id="L55">                flinching = false;</span>
+        }
+
+<span class="nc" id="L58">        getNextPosition();</span>
+<span class="nc" id="L59">        checkTileMapCollision();</span>
+<span class="nc" id="L60">        setPosition(xtemp, ytemp);</span>
+
+        // update animation
+<span class="nc" id="L63">        animation.update();</span>
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        facingRight = player.getx() &gt;= x;</span>
+
+<span class="nc bnc" id="L67" title="All 5 branches missed.">        switch (step) {</span>
+            case 0:
+<span class="nc" id="L69">                updateIdle();</span>
+<span class="nc" id="L70">                break;</span>
+            case 1:
+<span class="nc" id="L72">                updateJump();</span>
+<span class="nc" id="L73">                break;</span>
+            case 2:
+<span class="nc" id="L75">                updateAttack();</span>
+<span class="nc" id="L76">                break;</span>
+            case 3:
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                if (dy == 0)</span>
+<span class="nc" id="L79">                    step++;</span>
+<span class="nc" id="L80">                break;</span>
+            default:
+<span class="nc" id="L82">                step = 0;</span>
+<span class="nc" id="L83">                left = right = jumping = false;</span>
+                break;
+
+        }
+<span class="nc" id="L87">    }</span>
+
+    private void updateAttack() {
+<span class="nc bnc" id="L90" title="All 4 branches missed.">        if (dy &gt; 0 &amp;&amp; currentAction != ATTACKING) {</span>
+<span class="nc" id="L91">            currentAction = ATTACKING;</span>
+<span class="nc" id="L92">            animation.setFrames(attackSprites);</span>
+<span class="nc" id="L93">            animation.setDelay(3);</span>
+<span class="nc" id="L94">            RedEnergy de = new RedEnergy(tileMap);</span>
+<span class="nc" id="L95">            de.setPosition(x, y);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (facingRight)</span>
+<span class="nc" id="L97">                de.setVector(3, 3);</span>
+            else
+<span class="nc" id="L99">                de.setVector(-3, 3);</span>
+<span class="nc" id="L100">            enemies.add(de);</span>
+        }
+<span class="nc bnc" id="L102" title="All 4 branches missed.">        if (currentAction == ATTACKING &amp;&amp; animation.hasPlayedOnce()) {</span>
+<span class="nc" id="L103">            step++;</span>
+<span class="nc" id="L104">            currentAction = JUMPING;</span>
+<span class="nc" id="L105">            animation.setFrames(jumpSprites);</span>
+<span class="nc" id="L106">            animation.setDelay(-1);</span>
+        }
+<span class="nc" id="L108">    }</span>
+
+    private void updateJump() {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (currentAction != JUMPING) {</span>
+<span class="nc" id="L112">            currentAction = JUMPING;</span>
+<span class="nc" id="L113">            animation.setFrames(jumpSprites);</span>
+<span class="nc" id="L114">            animation.setDelay(-1);</span>
+        }
+<span class="nc" id="L116">        jumping = true;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        if (facingRight)</span>
+<span class="nc" id="L118">            left = true;</span>
+        else
+<span class="nc" id="L120">            right = true;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if (falling) {</span>
+<span class="nc" id="L122">            step++;</span>
+        }
+<span class="nc" id="L124">    }</span>
+
+    private void updateIdle() {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (currentAction != IDLE) {</span>
+<span class="nc" id="L128">            currentAction = IDLE;</span>
+<span class="nc" id="L129">            animation.setFrames(idleSprites);</span>
+<span class="nc" id="L130">            animation.setDelay(-1);</span>
+        }
+<span class="nc" id="L132">        attackTick++;</span>
+<span class="nc bnc" id="L133" title="All 4 branches missed.">        if (attackTick &gt;= attackDelay &amp;&amp; Math.abs(player.getx() - x) &lt; 60) {</span>
+<span class="nc" id="L134">            step++;</span>
+<span class="nc" id="L135">            attackTick = 0;</span>
+        }
+<span class="nc" id="L137">    }</span>
+
+    @Override
+    public void draw(Graphics2D g) {
+
+<span class="nc bnc" id="L142" title="All 6 branches missed.">        if (flinching &amp;&amp; (flinchCount == 0 || flinchCount == 2)) {</span>
+<span class="nc" id="L143">            return;</span>
+        }
+
+<span class="nc" id="L146">        super.draw(g);</span>
+
+<span class="nc" id="L148">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

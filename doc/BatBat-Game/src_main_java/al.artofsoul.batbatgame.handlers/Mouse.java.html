@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Mouse.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.handlers</a> &gt; <span class="el_source">Mouse.java</span></div><h1>Mouse.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.handlers;
+
+import al.artofsoul.batbatgame.gamestate.BasicState;
+import al.artofsoul.batbatgame.gamestate.Dialog;
+import al.artofsoul.batbatgame.gamestate.GameStateManager;
+import al.artofsoul.batbatgame.gamestate.OptionsState;
+
+public class Mouse extends BasicState {
+
+	public Mouse(GameStateManager gsm) {
+<span class="fc" id="L11">		super(gsm);</span>
+<span class="fc" id="L12">	}</span>
+
+	private OptionsState optionsState;
+
+	public void clicked(int x, int y) {
+		// System.out.println(x + &quot; &quot; + y + &quot; &quot; + gsm.getCurrentState());
+<span class="nc bnc" id="L18" title="All 2 branches missed.">		if (gsm.MENUSTATE == gsm.getCurrentState()) {</span>
+<span class="nc" id="L19">			switchMenuState(x, y);</span>
+<span class="nc bnc" id="L20" title="All 2 branches missed.">		} else if (gsm.OPTIONSSTATE == gsm.getCurrentState()) {</span>
+<span class="nc" id="L21">			switchOptionsState(x, y);</span>
+		}
+<span class="nc" id="L23">	}</span>
+
+	public void switchMenuState(int x, int y) {
+<span class="pc bpc" id="L26" title="3 of 4 branches missed.">		if (betweenX(280, 320, x) &amp;&amp; betweenY(250, 265, y)) {</span>
+<span class="nc" id="L27">			setPlay();</span>
+<span class="pc bpc" id="L28" title="3 of 4 branches missed.">		} else if (betweenX(280, 345, x) &amp;&amp; betweenY(280, 295, y)) {</span>
+<span class="nc" id="L29">			setOptions();</span>
+<span class="pc bpc" id="L30" title="3 of 4 branches missed.">		} else if (betweenX(280, 320, x) &amp;&amp; betweenY(310, 325, y)) {</span>
+<span class="nc" id="L31">			System.exit(1);</span>
+		}
+<span class="fc" id="L33">	}</span>
+
+	public void switchOptionsState(int x, int y) {
+<span class="pc bpc" id="L36" title="3 of 4 branches missed.">		if (betweenX(280, 320, x) &amp;&amp; betweenY(310, 325, y)) {</span>
+<span class="nc" id="L37">			setMenu();</span>
+<span class="pc bpc" id="L38" title="3 of 4 branches missed.">		} else if (betweenX(280, 415, x) &amp;&amp; betweenY(280, 295, y)) {</span>
+<span class="nc" id="L39">			openKeyboardLayout();</span>
+<span class="pc bpc" id="L40" title="3 of 4 branches missed.">		} else if (betweenX(280, 380, x) &amp;&amp; betweenY(250, 265, y)) {</span>
+<span class="nc" id="L41">			openHowToPlay();</span>
+		}
+<span class="fc" id="L43">	}</span>
+
+	public void setPlay() {
+<span class="fc" id="L46">		gsm.setState(gsm.LEVEL1STATE);</span>
+<span class="fc" id="L47">	}</span>
+
+	public void setOptions() {
+<span class="fc" id="L50">		gsm.setState(gsm.OPTIONSSTATE);</span>
+<span class="fc" id="L51">	}</span>
+
+	public void setMenu() {
+<span class="fc" id="L54">		gsm.setState(gsm.MENUSTATE);</span>
+<span class="fc" id="L55">	}</span>
+
+	public void openKeyboardLayout() {
+<span class="fc" id="L58">		Dialog keys = new Dialog();</span>
+<span class="fc" id="L59">	}</span>
+
+	public void openHowToPlay() {
+<span class="nc" id="L62">		optionsState = new OptionsState(gsm);</span>
+<span class="nc" id="L63">		optionsState.siLuhet();</span>
+<span class="nc" id="L64">	}</span>
+
+	public boolean betweenX(int min, int max, int x) {
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">		return min &lt;= x &amp;&amp; x &lt;= max;</span>
+	}
+
+	public boolean betweenY(int min, int max, int y) {
+<span class="pc bpc" id="L71" title="2 of 4 branches missed.">		return min &lt;= y &amp;&amp; y &lt;= max;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

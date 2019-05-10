@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>BasicState.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">BasicState.java</span></div><h1>BasicState.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
+
+import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Player;
+import al.artofsoul.batbatgame.handlers.Keys;
+import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.main.GamePanel;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+/**
+ * Created by tonikolaba on 03-Jan-18.
+ */
+
+public abstract class BasicState {
+	private static final String MENU_OPTION = &quot;menuoption&quot;;
+	protected GameStateManager gsm;
+	protected Player player;
+	protected TileMap tileMap;
+<span class="fc" id="L27">	protected boolean blockInput = false;</span>
+	protected BufferedImage bg;
+	protected BufferedImage head;
+<span class="fc" id="L30">	protected int currentChoice = 0;</span>
+	protected String[] options;
+	protected String[] options_hungarian;
+	protected Font font;
+	protected Font font2;
+
+<span class="fc" id="L36">	public BasicState(GameStateManager gsm) {</span>
+<span class="fc" id="L37">		this.gsm = gsm;</span>
+		try {
+
+<span class="fc" id="L40">			bg = ImageIO.read(getClass().getResourceAsStream(&quot;/Backgrounds/sfondi.gif&quot;)).getSubimage(0, 0,</span>
+<span class="fc" id="L41">					GamePanel.WIDTH, GamePanel.HEIGHT);</span>
+
+			// load floating head
+<span class="fc" id="L44">			head = ImageIO.read(getClass().getResourceAsStream(&quot;/HUD/Hud.gif&quot;)).getSubimage(0, 12, 12, 11);</span>
+
+			// titles and fonts
+
+<span class="fc" id="L48">			font = new Font(&quot;Arial&quot;, Font.BOLD, 11);</span>
+<span class="fc" id="L49">			font2 = new Font(&quot;Arial&quot;, Font.PLAIN, 9);</span>
+
+			// load sound fx
+<span class="fc" id="L52">			JukeBox.load(&quot;/SFX/menuoption.mp3&quot;, MENU_OPTION);</span>
+<span class="fc" id="L53">			JukeBox.load(&quot;/SFX/menuselect.mp3&quot;, &quot;menuselect&quot;);</span>
+
+<span class="pc" id="L55">		} catch (Exception e) {</span>
+<span class="nc" id="L56">			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());</span>
+		}
+<span class="fc" id="L58">	}</span>
+
+	public void update() {
+		// check keys
+<span class="nc" id="L62">		handleInput();</span>
+<span class="nc" id="L63">	}</span>
+
+	public void draw(Graphics2D g) {
+		// draw bg
+<span class="nc" id="L67">		g.drawImage(bg, 0, 0, null);</span>
+		// draw menu options
+<span class="nc" id="L69">		g.setFont(font);</span>
+<span class="nc" id="L70">		g.setColor(Color.WHITE);</span>
+		// draw floating head
+<span class="nc bnc" id="L72" title="All 2 branches missed.">		if (currentChoice == 0)</span>
+<span class="nc" id="L73">			g.drawImage(head, 120, 123, null);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		else if (currentChoice == 1)</span>
+<span class="nc" id="L75">			g.drawImage(head, 120, 138, null);</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		else if (currentChoice == 2)</span>
+<span class="nc" id="L77">			g.drawImage(head, 120, 153, null);</span>
+		// other
+<span class="nc" id="L79">		g.setFont(font2);</span>
+<span class="nc" id="L80">		g.drawString(&quot;2017 � toni kolaba + Rocket Team&quot;, 10, 232);</span>
+<span class="nc" id="L81">	}</span>
+
+	protected void select() {
+<span class="nc" id="L84">		throw new IllegalStateException(&quot;Needs to be overwritten&quot;);</span>
+	}
+
+	public void handleInput() {
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		if (Keys.isPressed(Keys.ENTER))</span>
+<span class="nc" id="L89">			select();</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">		if (Keys.isPressed(Keys.UP) &amp;&amp; currentChoice &gt; 0) {</span>
+<span class="nc" id="L91">			JukeBox.play(MENU_OPTION, 0);</span>
+<span class="nc" id="L92">			currentChoice--;</span>
+		}
+<span class="nc bnc" id="L94" title="All 4 branches missed.">		if (Keys.isPressed(Keys.DOWN) &amp;&amp; currentChoice &lt; options.length - 1) {</span>
+<span class="nc" id="L95">			JukeBox.play(MENU_OPTION, 0);</span>
+<span class="nc" id="L96">			currentChoice++;</span>
+		}
+<span class="nc" id="L98">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

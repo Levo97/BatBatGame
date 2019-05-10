@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>AcidState.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">AcidState.java</span></div><h1>AcidState.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import al.artofsoul.batbatgame.handlers.Keys;
+import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.main.GamePanel;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class AcidState extends GameState {
+
+    private float hue;
+    private Color color;
+
+    private double angle;
+    private BufferedImage image;
+
+    public AcidState(GameStateManager gsm) {
+<span class="nc" id="L26">        super(gsm);</span>
+        try {
+<span class="nc" id="L28">            image = ImageIO.read(getClass().getResourceAsStream(&quot;/Sprites/Player/PlayerSprites.gif&quot;)).getSubimage(0, 0,</span>
+<span class="nc" id="L29">                    40, 40);</span>
+<span class="nc" id="L30">        } catch (Exception e) {</span>
+<span class="nc" id="L31">            LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());</span>
+        }
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    public void update() {
+<span class="nc" id="L37">        handleInput();</span>
+<span class="nc" id="L38">        color = Color.getHSBColor(hue, 1f, 1f);</span>
+<span class="nc" id="L39">        hue += 0.01;</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if (hue &gt; 1)</span>
+<span class="nc" id="L41">            hue = 0;</span>
+<span class="nc" id="L42">        angle += 0.1;</span>
+<span class="nc" id="L43">    }</span>
+
+    @Override
+    public void draw(Graphics2D g) {
+<span class="nc" id="L47">        g.setColor(color);</span>
+<span class="nc" id="L48">        g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);</span>
+<span class="nc" id="L49">        AffineTransform at = new AffineTransform();</span>
+<span class="nc" id="L50">        at.translate(GamePanel.WIDTH / 2.0, GamePanel.HEIGHT / 2.0);</span>
+<span class="nc" id="L51">        at.rotate(angle);</span>
+<span class="nc" id="L52">        g.drawImage(image, at, null);</span>
+<span class="nc" id="L53">    }</span>
+
+    @Override
+    public void handleInput() {
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (Keys.isPressed(Keys.ESCAPE))</span>
+<span class="nc" id="L58">            gsm.setState(GameStateManager.MENUSTATE);</span>
+<span class="nc" id="L59">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

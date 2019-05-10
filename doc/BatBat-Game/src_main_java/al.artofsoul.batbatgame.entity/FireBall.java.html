@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FireBall.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity</a> &gt; <span class="el_source">FireBall.java</span></div><h1>FireBall.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity;
+
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class FireBall extends MapObject {
+
+    private boolean hit;
+    private boolean remove;
+    private BufferedImage[] sprites;
+    private BufferedImage[] hitSprites;
+
+    public FireBall(TileMap tm, boolean right) {
+
+<span class="nc" id="L21">        super(tm);</span>
+
+<span class="nc" id="L23">        facingRight = right;</span>
+
+<span class="nc" id="L25">        moveSpeed = 3.8;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (right) dx = moveSpeed;</span>
+<span class="nc" id="L27">        else dx = -moveSpeed;</span>
+
+<span class="nc" id="L29">        width = 30;</span>
+<span class="nc" id="L30">        height = 30;</span>
+<span class="nc" id="L31">        cwidth = 14;</span>
+<span class="nc" id="L32">        cheight = 14;</span>
+
+        // load sprites
+        try {
+
+<span class="nc" id="L37">            BufferedImage spritesheet = ImageIO.read(</span>
+<span class="nc" id="L38">                    getClass().getResourceAsStream(</span>
+<span class="nc" id="L39">                            &quot;/Sprites/Player/fireball.gif&quot;</span>
+                    )
+            );
+
+<span class="nc" id="L43">            sprites = new BufferedImage[4];</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            for (int i = 0; i &lt; sprites.length; i++) {</span>
+<span class="nc" id="L45">                sprites[i] = spritesheet.getSubimage(</span>
+<span class="nc" id="L46">                        i * width,</span>
+<span class="nc" id="L47">                        0,</span>
+<span class="nc" id="L48">                        width,</span>
+<span class="nc" id="L49">                        height</span>
+                );
+            }
+
+<span class="nc" id="L53">            hitSprites = new BufferedImage[3];</span>
+<span class="nc bnc" id="L54" title="All 2 branches missed.">            for (int i = 0; i &lt; hitSprites.length; i++) {</span>
+<span class="nc" id="L55">                hitSprites[i] = spritesheet.getSubimage(</span>
+<span class="nc" id="L56">                        i * width,</span>
+<span class="nc" id="L57">                        height,</span>
+<span class="nc" id="L58">                        width,</span>
+<span class="nc" id="L59">                        height</span>
+                );
+            }
+
+<span class="nc" id="L63">            animation.setFrames(sprites);</span>
+<span class="nc" id="L64">            animation.setDelay(4);</span>
+
+<span class="nc" id="L66">        } catch (Exception e) {</span>
+<span class="nc" id="L67">            e.printStackTrace();</span>
+        }
+
+<span class="nc" id="L70">    }</span>
+
+    public void setHit() {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (hit) return;</span>
+<span class="nc" id="L74">        hit = true;</span>
+<span class="nc" id="L75">        animation.setFrames(hitSprites);</span>
+<span class="nc" id="L76">        animation.setDelay(4);</span>
+<span class="nc" id="L77">        dx = 0;</span>
+<span class="nc" id="L78">    }</span>
+
+    public boolean isHit() {
+<span class="nc" id="L81">        return hit;</span>
+    }
+
+    public boolean shouldRemove() {
+<span class="nc" id="L85">        return remove;</span>
+    }
+
+    public void update() {
+
+<span class="nc" id="L90">        checkTileMapCollision();</span>
+<span class="nc" id="L91">        setPosition(xtemp, ytemp);</span>
+
+<span class="nc bnc" id="L93" title="All 4 branches missed.">        if (dx == 0 &amp;&amp; !hit) {</span>
+<span class="nc" id="L94">            setHit();</span>
+        }
+
+<span class="nc" id="L97">        animation.update();</span>
+<span class="nc bnc" id="L98" title="All 4 branches missed.">        if (hit &amp;&amp; animation.hasPlayedOnce()) {</span>
+<span class="nc" id="L99">            remove = true;</span>
+        }
+
+<span class="nc" id="L102">    }</span>
+
+    //Draw-Method is inherited.
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

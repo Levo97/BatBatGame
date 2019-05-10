@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Level2State.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">Level2State.java</span></div><h1>Level2State.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
+import al.artofsoul.batbatgame.tilemap.Background;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Level2State extends GameState {
+
+	public Level2State(GameStateManager gsm) {
+<span class="nc" id="L13">		super(gsm);</span>
+<span class="nc" id="L14">		gsm.level = GameStateManager.LEVEL2STATE - 1;</span>
+<span class="nc" id="L15">		init(GameStateManager.LEVEL4STATE);</span>
+<span class="nc" id="L16">	}</span>
+
+	@Override
+	public void init(int nextLevel) {
+
+<span class="nc" id="L21">		super.init(nextLevel);</span>
+		// backgrounds
+<span class="nc" id="L23">		perendimi = new Background(&quot;/Backgrounds/perendimi.gif&quot;, 0.5, 0);</span>
+<span class="nc" id="L24">		mountains = new Background(&quot;/Backgrounds/mali2.gif&quot;, 0.2);</span>
+
+		// tilemap
+<span class="nc" id="L27">		generateTileMap(&quot;/Maps/level2.map&quot;, 140, 0, true);</span>
+
+<span class="nc" id="L29">		setupGameObjects(300, 161, 3700, 131, false);</span>
+<span class="nc" id="L30">		setupTitle(new int[] { 0, 0, 178, 20 }, new int[] { 0, 33, 91, 13 });</span>
+<span class="nc" id="L31">		setupMusic(&quot;level1&quot;, &quot;/Music/godofwar.mp3&quot;, true);</span>
+
+<span class="nc" id="L33">		enemyTypesInLevel = new EnemyType[] { EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,</span>
+<span class="nc" id="L34">				EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,</span>
+<span class="nc" id="L35">				EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.ZOGU, EnemyType.ZOGU };</span>
+<span class="nc" id="L36">		coords = new int[][] { new int[] { 1300, 100 }, new int[] { 1320, 100 }, new int[] { 1340, 100 },</span>
+<span class="nc" id="L37">				new int[] { 1660, 100 }, new int[] { 1680, 100 }, new int[] { 1700, 100 }, new int[] { 2177, 100 },</span>
+<span class="nc" id="L38">				new int[] { 2960, 100 }, new int[] { 2980, 100 }, new int[] { 3000, 100 }, new int[] { 2600, 100 },</span>
+<span class="nc" id="L39">				new int[] { 3500, 100 } };</span>
+
+<span class="nc" id="L41">		populateEnemies(enemyTypesInLevel, coords);</span>
+<span class="nc" id="L42">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

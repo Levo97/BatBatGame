@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Teleport.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity</a> &gt; <span class="el_source">Teleport.java</span></div><h1>Teleport.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity;
+
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
+import javax.imageio.ImageIO;
+
+import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Teleport extends MapObject {
+
+	private BufferedImage[] sprites;
+
+	public Teleport(TileMap tm) {
+<span class="fc" id="L20">		super(tm);</span>
+<span class="fc" id="L21">		facingRight = true;</span>
+<span class="fc" id="L22">		width = height = 40;</span>
+<span class="fc" id="L23">		cwidth = 20;</span>
+<span class="fc" id="L24">		cheight = 40;</span>
+		try {
+<span class="fc" id="L26">			BufferedImage spritesheet = ImageIO</span>
+<span class="fc" id="L27">					.read(getClass().getResourceAsStream(&quot;/Sprites/Player/TeleportBlue.gif&quot;));</span>
+<span class="fc" id="L28">			sprites = new BufferedImage[9];</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">			for (int i = 0; i &lt; sprites.length; i++) {</span>
+<span class="fc" id="L30">				sprites[i] = spritesheet.getSubimage(i * width, 0, width, height);</span>
+			}
+<span class="fc" id="L32">			animation.setFrames(sprites);</span>
+<span class="fc" id="L33">			animation.setDelay(1);</span>
+<span class="pc" id="L34">		} catch (Exception e) {</span>
+<span class="nc" id="L35">			LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());</span>
+		}
+<span class="fc" id="L37">	}</span>
+
+	public void update() {
+<span class="nc" id="L40">		animation.update();</span>
+<span class="nc" id="L41">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

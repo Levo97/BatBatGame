@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Level3State.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">Level3State.java</span></div><h1>Level3State.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
+import al.artofsoul.batbatgame.entity.Player;
+import al.artofsoul.batbatgame.tilemap.Background;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Level3State extends GameState {
+
+	private boolean eventQuake;
+
+	public Level3State(GameStateManager gsm) {
+<span class="nc" id="L16">		super(gsm);</span>
+<span class="nc" id="L17">		gsm.level = GameStateManager.LEVEL3STATE - 1;</span>
+<span class="nc" id="L18">		init(GameStateManager.LEVEL2STATE);</span>
+<span class="nc" id="L19">	}</span>
+
+	@Override
+	public void init(int nextLevel) {
+
+<span class="nc" id="L24">		super.init(nextLevel);</span>
+		// backgrounds
+<span class="nc" id="L26">		temple = new Background(&quot;/Backgrounds/temple.gif&quot;, 0.5, 0);</span>
+
+		// tilemap
+<span class="nc" id="L29">		generateTileMap(&quot;/Maps/level3.map&quot;, 140, 0, false);</span>
+
+<span class="nc" id="L31">		setupGameObjects(300, 131, 2850, 371, false);</span>
+<span class="nc" id="L32">		setupTitle(new int[] { 0, 0, 178, 20 }, new int[] { 0, 33, 91, 13 });</span>
+<span class="nc" id="L33">		setupMusic(&quot;level2&quot;, &quot;/Music/level1v2.mp3&quot;, true);</span>
+
+<span class="nc" id="L35">		enemyTypesInLevel = new EnemyType[] { EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,</span>
+<span class="nc" id="L36">				EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT, EnemyType.XHELBAT,</span>
+<span class="nc" id="L37">				EnemyType.ZOGU, EnemyType.ZOGU, EnemyType.ZOGU, EnemyType.ZOGU, EnemyType.UFO, EnemyType.UFO,</span>
+<span class="nc" id="L38">				EnemyType.UFO, EnemyType.UFO };</span>
+<span class="nc" id="L39">		coords = new int[][] { new int[] { 750, 100 }, new int[] { 900, 150 }, new int[] { 1320, 250 },</span>
+<span class="nc" id="L40">				new int[] { 1570, 160 }, new int[] { 1590, 160 }, new int[] { 2600, 370 }, new int[] { 2620, 370 },</span>
+<span class="nc" id="L41">				new int[] { 2640, 370 }, new int[] { 904, 130 }, new int[] { 1080, 270 }, new int[] { 1200, 270 },</span>
+<span class="nc" id="L42">				new int[] { 1704, 300 }, new int[] { 1900, 580 }, new int[] { 2330, 550 }, new int[] { 2400, 490 },</span>
+<span class="nc" id="L43">				new int[] { 2457, 430 } };</span>
+
+<span class="nc" id="L45">		populateEnemies(enemyTypesInLevel, coords);</span>
+<span class="nc" id="L46">	}</span>
+
+	@Override
+	public void update() {
+
+<span class="nc" id="L51">		super.update();</span>
+
+		// check if quake event should start
+<span class="nc bnc" id="L54" title="All 4 branches missed.">		if (player.getx() &gt; 2175 &amp;&amp; !tileMap.isShaking()) {</span>
+<span class="nc" id="L55">			eventQuake = blockInput = true;</span>
+		}
+
+<span class="nc bnc" id="L58" title="All 2 branches missed.">		if (eventQuake)</span>
+<span class="nc" id="L59">			eventQuake();</span>
+
+<span class="nc" id="L61">	}</span>
+
+	///////////////////////////////////////////////////////
+	//////////////////// EVENTS
+	///////////////////////////////////////////////////////
+
+	// earthquake
+	private void eventQuake() {
+<span class="nc" id="L69">		eventCount++;</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">		if (eventCount == 1) {</span>
+<span class="nc" id="L71">			player.stop();</span>
+<span class="nc" id="L72">			player.setPosition(2175, player.gety());</span>
+		}
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		if (eventCount == 60) {</span>
+<span class="nc" id="L75">			player.setEmote(Player.CONFUSED_EMOTE);</span>
+		}
+<span class="nc bnc" id="L77" title="All 2 branches missed.">		if (eventCount == 120)</span>
+<span class="nc" id="L78">			player.setEmote(Player.NONE_EMOTE);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">		if (eventCount == 150)</span>
+<span class="nc" id="L80">			tileMap.setShaking(true, 10);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (eventCount == 180)</span>
+<span class="nc" id="L82">			player.setEmote(Player.SURPRISED_EMOTE);</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">		if (eventCount == 300) {</span>
+<span class="nc" id="L84">			player.setEmote(Player.NONE_EMOTE);</span>
+<span class="nc" id="L85">			eventQuake = blockInput = false;</span>
+<span class="nc" id="L86">			eventCount = 0;</span>
+		}
+<span class="nc" id="L88">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

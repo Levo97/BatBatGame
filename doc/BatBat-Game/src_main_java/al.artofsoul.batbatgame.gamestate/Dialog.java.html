@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Dialog.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">Dialog.java</span></div><h1>Dialog.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+import al.artofsoul.batbatgame.main.GamePanel;
+
+public class Dialog extends JDialog implements ActionListener {
+
+	private static final long serialVersionUID = 2072911996817368496L;
+
+<span class="fc" id="L21">	private JButton okButton = new JButton(&quot;ok&quot;);</span>
+<span class="fc" id="L22">	private JButton cancelButton = new JButton(&quot;cancel&quot;);</span>
+
+	private JRadioButton standard;
+	private JRadioButton modified;
+	private JRadioButton english;
+	private JRadioButton hungarian;
+
+	private ButtonGroup language_group;
+	private ButtonGroup group;
+
+	public Dialog() {
+<span class="fc" id="L33">		super();</span>
+<span class="fc" id="L34">		JPanel inputpanel = new JPanel();</span>
+<span class="fc" id="L35">		inputpanel.setLayout(new FlowLayout(FlowLayout.CENTER));</span>
+
+<span class="fc" id="L37">		JPanel inputLanguagePanel = new JPanel();</span>
+<span class="fc" id="L38">		inputLanguagePanel.setLayout(new FlowLayout(FlowLayout.CENTER));</span>
+
+<span class="fc" id="L40">		standard = new JRadioButton(&quot;Standard&quot;, true);</span>
+<span class="fc" id="L41">		modified = new JRadioButton(&quot;Modified&quot;, false);</span>
+
+<span class="fc" id="L43">		english = new JRadioButton(&quot;English&quot;, true);</span>
+<span class="fc" id="L44">		hungarian = new JRadioButton(&quot;Hungarian&quot;, false);</span>
+
+<span class="fc" id="L46">		group = new ButtonGroup();</span>
+<span class="fc" id="L47">		group.add(standard);</span>
+<span class="fc" id="L48">		group.add(modified);</span>
+
+<span class="fc" id="L50">		language_group = new ButtonGroup();</span>
+<span class="fc" id="L51">		language_group.add(english);</span>
+<span class="fc" id="L52">		language_group.add(hungarian);</span>
+
+<span class="fc" id="L54">		inputpanel.add(new JLabel(&quot;Please choose keyboard layout&quot;));</span>
+<span class="fc" id="L55">		inputpanel.add(standard);</span>
+<span class="fc" id="L56">		inputpanel.add(modified);</span>
+
+<span class="fc" id="L58">		inputLanguagePanel.add(new JLabel(&quot;Please choose a language&quot;));</span>
+<span class="fc" id="L59">		inputLanguagePanel.add(english);</span>
+<span class="fc" id="L60">		inputLanguagePanel.add(hungarian);</span>
+
+<span class="fc" id="L62">		JPanel controll = new JPanel();</span>
+<span class="fc" id="L63">		controll.setLayout(new FlowLayout(FlowLayout.CENTER));</span>
+
+<span class="fc" id="L65">		controll.add(okButton);</span>
+<span class="fc" id="L66">		okButton.addActionListener(this);</span>
+
+<span class="fc" id="L68">		controll.add(cancelButton);</span>
+<span class="fc" id="L69">		cancelButton.addActionListener(this);</span>
+
+<span class="fc" id="L71">		JPanel dialogPanel = new JPanel();</span>
+
+<span class="fc" id="L73">		dialogPanel.setLayout(new BorderLayout());</span>
+<span class="fc" id="L74">		dialogPanel.add(inputpanel, BorderLayout.CENTER);</span>
+<span class="fc" id="L75">		dialogPanel.add(inputLanguagePanel, BorderLayout.NORTH);</span>
+<span class="fc" id="L76">		dialogPanel.add(controll, BorderLayout.SOUTH);</span>
+
+<span class="fc" id="L78">		getContentPane().add(dialogPanel);</span>
+
+<span class="fc" id="L80">		pack();</span>
+<span class="fc" id="L81">		setVisible(true);</span>
+<span class="fc" id="L82">	}</span>
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">		if (okButton == e.getSource()) {</span>
+
+<span class="nc bnc" id="L89" title="All 2 branches missed.">			GamePanel.setStandardcontroll(!(modified.isSelected()));</span>
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">			if (hungarian.isSelected()) {</span>
+<span class="nc" id="L92">				GameStateManager.languageState(false);</span>
+<span class="nc" id="L93">				setVisible(false);</span>
+<span class="nc" id="L94">			} else {</span>
+<span class="nc" id="L95">				GameStateManager.languageState(true);</span>
+<span class="nc" id="L96">				setVisible(false);</span>
+			}
+<span class="nc bnc" id="L98" title="All 2 branches missed.">		} else if (cancelButton == e.getSource()) {</span>
+<span class="nc" id="L99">			setVisible(false);</span>
+		}
+<span class="nc" id="L101">	}</span>
+
+	public JButton getOkButton() {
+<span class="fc" id="L104">		return okButton;</span>
+	}
+
+	public void setOkButton(JButton okButton) {
+<span class="nc" id="L108">		this.okButton = okButton;</span>
+<span class="nc" id="L109">	}</span>
+
+	public JButton getCancelButton() {
+<span class="fc" id="L112">		return cancelButton;</span>
+	}
+
+	public void setCancelButton(JButton cancelButton) {
+<span class="nc" id="L116">		this.cancelButton = cancelButton;</span>
+<span class="nc" id="L117">	}</span>
+
+	public JRadioButton getStandard() {
+<span class="fc" id="L120">		return standard;</span>
+	}
+
+	public void setStandard(JRadioButton standard) {
+<span class="nc" id="L124">		this.standard = standard;</span>
+<span class="nc" id="L125">	}</span>
+
+	public JRadioButton getModified() {
+<span class="fc" id="L128">		return modified;</span>
+	}
+
+	public void setModified(JRadioButton modified) {
+<span class="nc" id="L132">		this.modified = modified;</span>
+<span class="nc" id="L133">	}</span>
+
+	public JRadioButton getEnglish() {
+<span class="nc" id="L136">		return english;</span>
+	}
+
+	public void setEnglish(JRadioButton english) {
+<span class="nc" id="L140">		this.english = english;</span>
+<span class="nc" id="L141">	}</span>
+
+	public JRadioButton getHungarian() {
+<span class="nc" id="L144">		return hungarian;</span>
+	}
+
+	public void setHungarian(JRadioButton hungarian) {
+<span class="nc" id="L148">		this.hungarian = hungarian;</span>
+<span class="nc" id="L149">	}</span>
+
+	public ButtonGroup getLanguage_group() {
+<span class="nc" id="L152">		return language_group;</span>
+	}
+
+	public void setLanguage_group(ButtonGroup language_group) {
+<span class="nc" id="L156">		this.language_group = language_group;</span>
+<span class="nc" id="L157">	}</span>
+
+	public ButtonGroup getGroup() {
+<span class="nc" id="L160">		return group;</span>
+	}
+
+	public void setGroup(ButtonGroup group) {
+<span class="nc" id="L164">		this.group = group;</span>
+<span class="nc" id="L165">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

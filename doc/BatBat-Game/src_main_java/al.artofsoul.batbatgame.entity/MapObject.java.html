@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>MapObject.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity</a> &gt; <span class="el_source">MapObject.java</span></div><h1>MapObject.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity;
+
+import al.artofsoul.batbatgame.main.GamePanel;
+import al.artofsoul.batbatgame.tilemap.Tile;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import java.awt.*;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public abstract class MapObject {
+
+    // tile stuff
+    protected TileMap tileMap;
+    protected int tileSize;
+    protected double xmap;
+    protected double ymap;
+
+    // position and vector
+    protected double x;
+    protected double y;
+    protected double dx;
+    protected double dy;
+
+    // dimensions
+    protected int width;
+    protected int height;
+
+    // collision box
+    protected int cwidth;
+    protected int cheight;
+
+    // collision
+    protected int currRow;
+    protected int currCol;
+    protected double xdest;
+    protected double ydest;
+    protected double xtemp;
+    protected double ytemp;
+    protected boolean topLeft;
+    protected boolean topRight;
+    protected boolean bottomLeft;
+    protected boolean bottomRight;
+
+    // animation
+    protected Animation animation;
+    protected int currentAction;
+    protected int previousAction;
+    protected boolean facingRight;
+
+    // movement
+    protected boolean left;
+    protected boolean right;
+    protected boolean up;
+    protected boolean down;
+    protected boolean jumping;
+    protected boolean falling;
+
+    // movement attributes
+    protected double moveSpeed;
+    protected double maxSpeed;
+    protected double stopSpeed;
+    protected double fallSpeed;
+    protected double maxFallSpeed;
+    protected double jumpStart;
+    protected double stopJumpSpeed;
+
+    // constructor
+<span class="fc" id="L71">    public MapObject(TileMap tm) {</span>
+<span class="fc" id="L72">        tileMap = tm;</span>
+<span class="fc" id="L73">        tileSize = tm.getTileSize();</span>
+<span class="fc" id="L74">        animation = new Animation();</span>
+<span class="fc" id="L75">        facingRight = true;</span>
+<span class="fc" id="L76">        currentAction = -1;</span>
+<span class="fc" id="L77">    }</span>
+
+    public boolean intersects(MapObject o) {
+<span class="nc" id="L80">        Rectangle r1 = getRectangle();</span>
+<span class="nc" id="L81">        Rectangle r2 = o.getRectangle();</span>
+<span class="nc" id="L82">        return r1.intersects(r2);</span>
+    }
+
+    public boolean intersects(Rectangle r) {
+<span class="nc" id="L86">        return getRectangle().intersects(r);</span>
+    }
+
+    public boolean contains(MapObject o) {
+<span class="nc" id="L90">        Rectangle r1 = getRectangle();</span>
+<span class="nc" id="L91">        Rectangle r2 = o.getRectangle();</span>
+<span class="nc" id="L92">        return r1.contains(r2);</span>
+    }
+
+    public boolean contains(Rectangle r) {
+<span class="nc" id="L96">        return getRectangle().contains(r);</span>
+    }
+
+    public Rectangle getRectangle() {
+<span class="nc" id="L100">        return new Rectangle((int) x - cwidth / 2, (int) y - cheight / 2, cwidth, cheight);</span>
+    }
+
+    public void calculateCorners(double x, double y) {
+<span class="nc" id="L104">        int leftTile = (int) (x - cwidth / 2.0) / tileSize;</span>
+<span class="nc" id="L105">        int rightTile = (int) (x + cwidth / 2.0 - 1) / tileSize;</span>
+<span class="nc" id="L106">        int topTile = (int) (y - cheight / 2.0) / tileSize;</span>
+<span class="nc" id="L107">        int bottomTile = (int) (y + cheight / 2.0 - 1) / tileSize;</span>
+<span class="nc bnc" id="L108" title="All 8 branches missed.">        if (topTile &lt; 0 || bottomTile &gt;= tileMap.getNumRows() || leftTile &lt; 0 || rightTile &gt;= tileMap.getNumCols()) {</span>
+<span class="nc" id="L109">            topLeft = topRight = bottomLeft = bottomRight = false;</span>
+<span class="nc" id="L110">            return;</span>
+        }
+<span class="nc" id="L112">        int tl = tileMap.getType(topTile, leftTile);</span>
+<span class="nc" id="L113">        int tr = tileMap.getType(topTile, rightTile);</span>
+<span class="nc" id="L114">        int bl = tileMap.getType(bottomTile, leftTile);</span>
+<span class="nc" id="L115">        int br = tileMap.getType(bottomTile, rightTile);</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        topLeft = tl == Tile.BLOCKED;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        topRight = tr == Tile.BLOCKED;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        bottomLeft = bl == Tile.BLOCKED;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        bottomRight = br == Tile.BLOCKED;</span>
+<span class="nc" id="L120">    }</span>
+
+    public void checkTileMapCollision() {
+
+<span class="nc" id="L124">        currCol = (int) x / tileSize;</span>
+<span class="nc" id="L125">        currRow = (int) y / tileSize;</span>
+
+<span class="nc" id="L127">        xdest = x + dx;</span>
+<span class="nc" id="L128">        ydest = y + dy;</span>
+
+<span class="nc" id="L130">        xtemp = x;</span>
+<span class="nc" id="L131">        ytemp = y;</span>
+
+<span class="nc" id="L133">        checkYCollision();</span>
+
+<span class="nc" id="L135">        checkXCollision();</span>
+
+<span class="nc bnc" id="L137" title="All 2 branches missed.">        if (!falling) {</span>
+<span class="nc" id="L138">            calculateCorners(x, ydest + 1);</span>
+<span class="nc bnc" id="L139" title="All 4 branches missed.">            if (!bottomLeft &amp;&amp; !bottomRight) {</span>
+<span class="nc" id="L140">                falling = true;</span>
+            }
+        }
+
+<span class="nc" id="L144">    }</span>
+
+    private void checkXCollision() {
+<span class="nc" id="L147">        calculateCorners(xdest, y);</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (dx &lt; 0) {</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">            if (topLeft || bottomLeft) {</span>
+<span class="nc" id="L150">                dx = 0;</span>
+<span class="nc" id="L151">                xtemp = currCol * tileSize + cwidth / 2.0;</span>
+<span class="nc" id="L152">            } else {</span>
+<span class="nc" id="L153">                xtemp += dx;</span>
+            }
+        }
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (dx &gt; 0) {</span>
+<span class="nc bnc" id="L157" title="All 4 branches missed.">            if (topRight || bottomRight) {</span>
+<span class="nc" id="L158">                dx = 0;</span>
+<span class="nc" id="L159">                xtemp = (currCol + 1) * tileSize - cwidth / 2.0;</span>
+<span class="nc" id="L160">            } else {</span>
+<span class="nc" id="L161">                xtemp += dx;</span>
+            }
+        }
+<span class="nc" id="L164">    }</span>
+
+    private void checkYCollision() {
+<span class="nc" id="L167">        calculateCorners(x, ydest);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (dy &lt; 0) {</span>
+<span class="nc bnc" id="L169" title="All 4 branches missed.">            if (topLeft || topRight) {</span>
+<span class="nc" id="L170">                dy = 0;</span>
+<span class="nc" id="L171">                ytemp = currRow * tileSize + cheight / 2.0;</span>
+<span class="nc" id="L172">            } else {</span>
+<span class="nc" id="L173">                ytemp += dy;</span>
+            }
+        }
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        if (dy &gt; 0) {</span>
+<span class="nc bnc" id="L177" title="All 4 branches missed.">            if (bottomLeft || bottomRight) {</span>
+<span class="nc" id="L178">                dy = 0;</span>
+<span class="nc" id="L179">                falling = false;</span>
+<span class="nc" id="L180">                ytemp = (currRow + 1) * tileSize - cheight / 2.0;</span>
+<span class="nc" id="L181">            } else {</span>
+<span class="nc" id="L182">                ytemp += dy;</span>
+            }
+        }
+<span class="nc" id="L185">    }</span>
+
+    public int getx() {
+<span class="nc" id="L188">        return (int) x;</span>
+    }
+
+    public int gety() {
+<span class="nc" id="L192">        return (int) y;</span>
+    }
+
+    public int getWidth() {
+<span class="nc" id="L196">        return width;</span>
+    }
+
+    public int getHeight() {
+<span class="nc" id="L200">        return height;</span>
+    }
+
+    public int getCWidth() {
+<span class="nc" id="L204">        return cwidth;</span>
+    }
+
+    public int getCHeight() {
+<span class="nc" id="L208">        return cheight;</span>
+    }
+
+    public boolean isFacingRight() {
+<span class="nc" id="L212">        return facingRight;</span>
+    }
+
+    public void setPosition(double x, double y) {
+<span class="fc" id="L216">        this.x = x;</span>
+<span class="fc" id="L217">        this.y = y;</span>
+<span class="fc" id="L218">    }</span>
+
+    public void setVector(double dx, double dy) {
+<span class="nc" id="L221">        this.dx = dx;</span>
+<span class="nc" id="L222">        this.dy = dy;</span>
+<span class="nc" id="L223">    }</span>
+
+    public void setMapPosition() {
+<span class="nc" id="L226">        xmap = tileMap.getx();</span>
+<span class="nc" id="L227">        ymap = tileMap.gety();</span>
+<span class="nc" id="L228">    }</span>
+
+    public void setLeft(boolean b) {
+<span class="nc" id="L231">        left = b;</span>
+<span class="nc" id="L232">    }</span>
+
+    public void setRight(boolean b) {
+<span class="nc" id="L235">        right = b;</span>
+<span class="nc" id="L236">    }</span>
+
+    public void setUp(boolean b) {
+<span class="nc" id="L239">        up = b;</span>
+<span class="nc" id="L240">    }</span>
+
+    public void setDown(boolean b) {
+<span class="nc" id="L243">        down = b;</span>
+<span class="nc" id="L244">    }</span>
+
+    public void setJumping(boolean b) {
+<span class="nc" id="L247">        jumping = b;</span>
+<span class="nc" id="L248">    }</span>
+
+    public boolean notOnScreen() {
+<span class="nc bnc" id="L251" title="All 8 branches missed.">        return x + xmap + width &lt; 0 || x + xmap - width &gt; GamePanel.WIDTH || y + ymap + height &lt; 0</span>
+<span class="nc" id="L252">                || y + ymap - height &gt; GamePanel.HEIGHT;</span>
+    }
+
+    public void draw(java.awt.Graphics2D g) {
+<span class="nc" id="L256">        setMapPosition();</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">        if (facingRight) {</span>
+<span class="nc" id="L258">            g.drawImage(animation.getImage(), (int) (x + xmap - width / 2.0), (int) (y + ymap - height / 2.0), null);</span>
+<span class="nc" id="L259">        } else {</span>
+<span class="nc" id="L260">            g.drawImage(animation.getImage(), (int) (x + xmap - width / 2.0 + width), (int) (y + ymap - height / 2.0),</span>
+<span class="nc" id="L261">                    -width, height, null);</span>
+        }
+<span class="nc" id="L263">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

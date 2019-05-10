@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>OptionsStateLanguageTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">OptionsStateLanguageTest.java</span></div><h1>OptionsStateLanguageTest.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+<span class="fc" id="L8">public class OptionsStateLanguageTest {</span>
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+
+<span class="fc" id="L13">	}</span>
+
+	@Test
+	public void testSiLuhet() {
+		/*
+		 * boolean x = GameStateManager.language_state; boolean[] excepted = { x };
+		 * boolean[] actual = { x }; assertArrayEquals(excepted, actual);
+		 */
+<span class="fc" id="L21">		boolean actual = GameStateManager.language_state;</span>
+<span class="fc" id="L22">		assertEquals(true, actual);</span>
+<span class="fc" id="L23">	}</span>
+
+	@Test
+	public void draw() {
+		/*
+		 * boolean x = GameStateManager.language_state; boolean[] excepted = { x };
+		 * boolean[] actual = { x }; assertArrayEquals(excepted, actual);
+		 */
+<span class="fc" id="L31">		boolean actual = GameStateManager.language_state;</span>
+<span class="fc" id="L32">		assertEquals(true, actual);</span>
+<span class="fc" id="L33">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

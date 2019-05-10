@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Piece.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity.batbat</a> &gt; <span class="el_source">Piece.java</span></div><h1>Piece.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity.batbat;
+
+import al.artofsoul.batbatgame.entity.MapObject;
+import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
+/**
+ * @author ArtOfSoul
+ */
+
+
+public class Piece extends MapObject {
+    private BufferedImage[] sprites;
+
+    public Piece(TileMap tm, int[] mapCoords) {
+<span class="nc" id="L20">        super(tm);</span>
+        try {
+<span class="nc" id="L22">            BufferedImage spritesheet = ImageIO.read(getClass().getResourceAsStream(&quot;/Sprites/Other/ballBatBoss.gif&quot;));</span>
+<span class="nc" id="L23">            sprites = new BufferedImage[1];</span>
+<span class="nc" id="L24">            width = height = 4;</span>
+<span class="nc" id="L25">            sprites[0] = spritesheet.getSubimage(mapCoords[0], mapCoords[1], mapCoords[2], mapCoords[3]);</span>
+<span class="nc" id="L26">            animation.setFrames(sprites);</span>
+<span class="nc" id="L27">            animation.setDelay(-1);</span>
+<span class="nc" id="L28">        } catch (Exception e) {</span>
+<span class="nc" id="L29">            LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());</span>
+        }
+<span class="nc" id="L31">    }</span>
+
+    public void update() {
+<span class="nc" id="L34">        x += dx;</span>
+<span class="nc" id="L35">        y += dy;</span>
+<span class="nc" id="L36">        animation.update();</span>
+<span class="nc" id="L37">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>GameStateManager.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">GameStateManager.java</span></div><h1>GameStateManager.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Player;
+import al.artofsoul.batbatgame.main.GamePanel;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class GameStateManager {
+	// TODO
+	public static final int NUMGAMESTATES = 17;
+	public static final int MENUSTATE = 0;
+	public static final int OPTIONSSTATE = 1;
+	public static final int LEVEL1STATE = 2;
+	public static final int LEVEL2STATE = 3;
+	public static final int LEVEL3STATE = 4;
+	public static final int LEVEL4STATE = 5;
+	public static final int ACIDSTATE = 15;
+	public static final int SCOREBOARDSTATES = 16;
+	private BasicState[] gameStates;
+	private int currentState;
+	private PauseState pauseState;
+	private boolean paused;
+<span class="fc" id="L26">	protected static boolean language_state = true;</span>
+	protected Player player;
+	protected int nextLevelState;
+	protected int level;
+
+<span class="fc" id="L31">	public GameStateManager() {</span>
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">		if (language_state == true) {</span>
+			// angol
+<span class="fc" id="L35">			JukeBox.init();</span>
+
+<span class="fc" id="L37">			gameStates = new BasicState[NUMGAMESTATES];</span>
+
+<span class="fc" id="L39">			pauseState = new PauseState(this);</span>
+<span class="fc" id="L40">			paused = false;</span>
+
+<span class="fc" id="L42">			currentState = MENUSTATE;</span>
+<span class="fc" id="L43">			loadState(currentState);</span>
+<span class="fc" id="L44">		} else {</span>
+			// magyar
+<span class="nc" id="L46">			JukeBox.init();</span>
+
+<span class="nc" id="L48">			gameStates = new BasicState[NUMGAMESTATES];</span>
+
+<span class="nc" id="L50">			pauseState = new PauseState(this);</span>
+<span class="nc" id="L51">			paused = false;</span>
+
+<span class="nc" id="L53">			currentState = MENUSTATE;</span>
+<span class="nc" id="L54">			loadState(currentState);</span>
+		}
+<span class="fc" id="L56">	}</span>
+
+	public static boolean languageState(boolean language) {
+<span class="nc" id="L59">		language_state = language;</span>
+<span class="nc" id="L60">		return language_state;</span>
+	}
+
+	private void loadState(int state) {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">		if (language_state == true) {</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">			if (state == MENUSTATE)</span>
+<span class="fc" id="L66">				gameStates[state] = new MenuState(this);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">			else if (state == OPTIONSSTATE)</span>
+<span class="fc" id="L68">				gameStates[state] = new OptionsState(this);</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">			else if (state == LEVEL1STATE)</span>
+<span class="fc" id="L70">				gameStates[state] = new Level1State(this);</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">			else if (state == LEVEL2STATE)</span>
+<span class="nc" id="L72">				gameStates[state] = new Level2State(this);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">			else if (state == LEVEL3STATE)</span>
+<span class="nc" id="L74">				gameStates[state] = new Level3State(this);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">			else if (state == LEVEL4STATE)</span>
+<span class="nc" id="L76">				gameStates[state] = new Level4State(this);</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">			else if (state == ACIDSTATE)</span>
+<span class="nc" id="L78">				gameStates[state] = new AcidState(this);</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">			else if (state == SCOREBOARDSTATES)</span>
+<span class="nc" id="L80">				gameStates[state] = new ScoreBoardState(this);</span>
+<span class="nc" id="L81">		} else {</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">			if (state == MENUSTATE)</span>
+<span class="nc" id="L83">				gameStates[state] = new MenuState(this);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">			else if (state == OPTIONSSTATE)</span>
+<span class="nc" id="L85">				gameStates[state] = new OptionsState(this);</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">			else if (state == LEVEL1STATE)</span>
+<span class="nc" id="L87">				gameStates[state] = new Level1State(this);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">			else if (state == LEVEL2STATE)</span>
+<span class="nc" id="L89">				gameStates[state] = new Level2State(this);</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">			else if (state == LEVEL3STATE)</span>
+<span class="nc" id="L91">				gameStates[state] = new Level3State(this);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">			else if (state == LEVEL4STATE)</span>
+<span class="nc" id="L93">				gameStates[state] = new Level4State(this);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">			else if (state == ACIDSTATE)</span>
+<span class="nc" id="L95">				gameStates[state] = new AcidState(this);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">			else if (state == SCOREBOARDSTATES)</span>
+<span class="nc" id="L97">				gameStates[state] = new ScoreBoardState(this);</span>
+		}
+<span class="fc" id="L99">	}</span>
+
+	private void unloadState(int state) {
+<span class="fc" id="L102">		gameStates[state] = null;</span>
+<span class="fc" id="L103">	}</span>
+
+	public void setState(int state) {
+<span class="fc" id="L106">		unloadState(currentState);</span>
+<span class="fc" id="L107">		currentState = state;</span>
+<span class="fc" id="L108">		loadState(currentState);</span>
+<span class="fc" id="L109">	}</span>
+
+	public int getCurrentState() {
+<span class="fc" id="L112">		return currentState;</span>
+	}
+
+	public void setPaused(boolean b) {
+<span class="nc" id="L116">		paused = b;</span>
+<span class="nc" id="L117">	}</span>
+
+	public void update() {
+<span class="nc bnc" id="L120" title="All 2 branches missed.">		if (paused) {</span>
+<span class="nc" id="L121">			pauseState.update();</span>
+<span class="nc" id="L122">			return;</span>
+		}
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		if (gameStates[currentState] != null)</span>
+<span class="nc" id="L125">			gameStates[currentState].update();</span>
+<span class="nc" id="L126">	}</span>
+
+	public void draw(java.awt.Graphics2D g) {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">		if (paused) {</span>
+<span class="nc" id="L130">			pauseState.draw(g);</span>
+<span class="nc" id="L131">			return;</span>
+		}
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		if (gameStates[currentState] != null)</span>
+<span class="nc" id="L134">			gameStates[currentState].draw(g);</span>
+		else {
+<span class="nc" id="L136">			g.setColor(java.awt.Color.BLACK);</span>
+<span class="nc" id="L137">			g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);</span>
+		}
+<span class="nc" id="L139">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

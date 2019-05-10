@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Title.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity</a> &gt; <span class="el_source">Title.java</span></div><h1>Title.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity;
+
+import al.artofsoul.batbatgame.handlers.LoggingHelper;
+import al.artofsoul.batbatgame.main.GamePanel;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Title {
+
+    private BufferedImage image;
+
+    private int count;
+    private boolean done;
+    private boolean remove;
+
+    private double x;
+    private double y;
+    private double dx;
+
+    private int width;
+
+<span class="nc" id="L29">    public Title(String s) {</span>
+
+        try {
+<span class="nc" id="L32">            image = ImageIO.read(getClass().getResourceAsStream(s));</span>
+<span class="nc" id="L33">            width = image.getWidth();</span>
+<span class="nc" id="L34">            x = -width;</span>
+<span class="nc" id="L35">            done = false;</span>
+<span class="nc" id="L36">        } catch (Exception e) {</span>
+<span class="nc" id="L37">            LoggingHelper.LOGGER.log(Level.SEVERE, e.getMessage());</span>
+        }
+
+<span class="nc" id="L40">    }</span>
+
+<span class="fc" id="L42">    public Title(BufferedImage image) {</span>
+<span class="fc" id="L43">        this.image = image;</span>
+<span class="fc" id="L44">        width = image.getWidth();</span>
+<span class="fc" id="L45">        x = -width;</span>
+<span class="fc" id="L46">        done = false;</span>
+<span class="fc" id="L47">    }</span>
+
+    public void reset() {
+<span class="nc" id="L50">        done = false;</span>
+<span class="nc" id="L51">        remove = false;</span>
+<span class="nc" id="L52">        x = -width;</span>
+<span class="nc" id="L53">    }</span>
+
+    public void sety(double y) {
+<span class="fc" id="L56">        this.y = y;</span>
+<span class="fc" id="L57">    }</span>
+
+    public void begin() {
+<span class="nc" id="L60">        dx = 10;</span>
+<span class="nc" id="L61">    }</span>
+
+    public boolean shouldRemove() {
+<span class="nc" id="L64">        return remove;</span>
+    }
+
+    public void update() {
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (!done) {</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (x &gt;= (GamePanel.WIDTH - width) / 2.0) {</span>
+<span class="nc" id="L70">                x = (GamePanel.WIDTH - width) / 2.0;</span>
+<span class="nc" id="L71">                count++;</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                if (count &gt;= 120)</span>
+<span class="nc" id="L73">                    done = true;</span>
+<span class="nc" id="L74">            } else {</span>
+<span class="nc" id="L75">                x += dx;</span>
+            }
+<span class="nc" id="L77">        } else {</span>
+<span class="nc" id="L78">            x += dx;</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if (x &gt; GamePanel.WIDTH)</span>
+<span class="nc" id="L80">                remove = true;</span>
+        }
+<span class="nc" id="L82">    }</span>
+
+    public void draw(Graphics2D g) {
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (!remove)</span>
+<span class="nc" id="L86">            g.drawImage(image, (int) x, (int) y, null);</span>
+<span class="nc" id="L87">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

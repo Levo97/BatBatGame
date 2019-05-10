@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>DialogTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">test</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">DialogTest.java</span></div><h1>DialogTest.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import al.artofsoul.batbatgame.main.GamePanel;
+
+public class DialogTest {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+<span class="fc" id="L16">	}</span>
+
+	private Dialog test;
+
+<span class="fc" id="L20">	public DialogTest() {</span>
+
+<span class="fc" id="L22">		test = new Dialog();</span>
+
+<span class="fc" id="L24">	}</span>
+
+	@Test
+	public void StandartTest() {
+
+<span class="fc" id="L29">		assertEquals(true, test.getStandard().isSelected());</span>
+
+<span class="fc" id="L31">	}</span>
+
+	@Test
+	public void ModifiedTest() {
+
+<span class="fc" id="L36">		assertEquals(false, test.getModified().isSelected());</span>
+
+<span class="fc" id="L38">	}</span>
+
+	@Test
+	public void okTest() {
+
+<span class="fc" id="L43">		assertEquals(false, test.getOkButton().isSelected());</span>
+
+<span class="fc" id="L45">	}</span>
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+<span class="fc" id="L49">	}</span>
+
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L53">	}</span>
+
+	@Test
+	public void cancelTest() {
+
+<span class="fc" id="L58">		assertEquals(false, test.getCancelButton().isSelected());</span>
+
+<span class="fc" id="L60">	}</span>
+
+	@Test
+	public void actionPerformedOKtest() {
+
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">		if (test.getOkButton() == test.getOkButton()) {</span>
+
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">			GamePanel.setStandardcontroll(!(test.getModified().isSelected()));</span>
+<span class="fc" id="L68">			test.setVisible(false);</span>
+
+<span class="pc bnc" id="L70" title="All 2 branches missed.">		} else if (test.getCancelButton() != test.getCancelButton()) {</span>
+<span class="nc" id="L71">			test.setVisible(false);</span>
+		}
+
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">		boolean expected = !(test.getModified().isSelected());</span>
+<span class="fc" id="L75">		boolean actual = GamePanel.isStandardcontroll();</span>
+<span class="fc" id="L76">		assertEquals(expected, actual);</span>
+
+<span class="fc" id="L78">	}</span>
+
+	@Test
+	public void actionPerformedCanceltest() {
+
+<span class="fc" id="L83">		boolean x = true;</span>
+
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">		if (test.getOkButton() != test.getOkButton()) {</span>
+
+<span class="nc bnc" id="L87" title="All 2 branches missed.">			GamePanel.setStandardcontroll(!(test.getModified().isSelected()));</span>
+<span class="nc" id="L88">			test.setVisible(false);</span>
+
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">		} else if (test.getCancelButton() == test.getCancelButton()) {</span>
+<span class="fc" id="L91">			test.setVisible(false);</span>
+<span class="fc" id="L92">			x = false;</span>
+		}
+
+<span class="fc" id="L95">		boolean excepted = false;</span>
+<span class="fc" id="L96">		boolean actual = x;</span>
+<span class="fc" id="L97">		assertEquals(excepted, actual);</span>
+
+<span class="fc" id="L99">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

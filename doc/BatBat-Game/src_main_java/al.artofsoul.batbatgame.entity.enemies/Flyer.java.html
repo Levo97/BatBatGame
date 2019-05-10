@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Flyer.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity.enemies</a> &gt; <span class="el_source">Flyer.java</span></div><h1>Flyer.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity.enemies;
+
+import al.artofsoul.batbatgame.entity.Enemy;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+/**
+ * Created by NdueKolaba on 03-Apr-18.
+ */
+
+public class Flyer extends Enemy {
+
+
+<span class="fc" id="L13">    private double[][] initValues = new double[][]{new double[]{4, 30, 30, 20, 26, 1, 1.5, 0.15, 4.0, -5},</span>
+<span class="fc" id="L14">            new double[]{1, 25, 25, 20, 18, 1, 0.8, 0.15, 4.0, -5}};</span>
+
+    public Flyer(TileMap tm, FlyerType type) {
+<span class="fc" id="L17">        super(tm);</span>
+<span class="fc" id="L18">        health = maxHealth = (int) initValues[type.value][0];</span>
+
+<span class="fc" id="L20">        width = (int) initValues[type.value][1];</span>
+<span class="fc" id="L21">        height = (int) initValues[type.value][2];</span>
+<span class="fc" id="L22">        cwidth = (int) initValues[type.value][3];</span>
+<span class="fc" id="L23">        cheight = (int) initValues[type.value][4];</span>
+
+<span class="fc" id="L25">        damage = (int) initValues[type.value][5];</span>
+<span class="fc" id="L26">        moveSpeed = initValues[type.value][6];</span>
+<span class="fc" id="L27">        fallSpeed = initValues[type.value][7];</span>
+<span class="fc" id="L28">        maxFallSpeed = initValues[type.value][8];</span>
+<span class="fc" id="L29">        jumpStart = initValues[type.value][9];</span>
+<span class="fc" id="L30">    }</span>
+
+    protected void getNextPosition() {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (left)</span>
+<span class="nc" id="L34">            dx = -moveSpeed;</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">        else if (right)</span>
+<span class="nc" id="L36">            dx = moveSpeed;</span>
+        else
+<span class="nc" id="L38">            dx = 0;</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (falling) {</span>
+<span class="nc" id="L40">            dy += fallSpeed;</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">            if (dy &gt; maxFallSpeed)</span>
+<span class="nc" id="L42">                dy = maxFallSpeed;</span>
+        }
+<span class="nc bnc" id="L44" title="All 4 branches missed.">        if (jumping &amp;&amp; !falling) {</span>
+<span class="nc" id="L45">            dy = jumpStart;</span>
+        }
+<span class="nc" id="L47">    }</span>
+
+<span class="fc" id="L49">    public enum FlyerType {</span>
+<span class="fc" id="L50">        UFO(0), XHEL_BAT(1);</span>
+
+        public final int value;
+
+<span class="fc" id="L54">        FlyerType(int val) {</span>
+<span class="fc" id="L55">            value = val;</span>
+<span class="fc" id="L56">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

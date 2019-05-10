@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Level4State.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.gamestate</a> &gt; <span class="el_source">Level4State.java</span></div><h1>Level4State.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.gamestate;
+
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Random;
+
+import al.artofsoul.batbatgame.audio.JukeBox;
+import al.artofsoul.batbatgame.entity.Enemy.EnemyType;
+import al.artofsoul.batbatgame.entity.EnergyParticle;
+import al.artofsoul.batbatgame.entity.Explosion;
+import al.artofsoul.batbatgame.entity.Player;
+import al.artofsoul.batbatgame.entity.PlayerSave;
+import al.artofsoul.batbatgame.entity.Spirit;
+import al.artofsoul.batbatgame.entity.batbat.Piece;
+import al.artofsoul.batbatgame.entity.enemies.RedEnergy;
+import al.artofsoul.batbatgame.main.GamePanel;
+import al.artofsoul.batbatgame.tilemap.Background;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class Level4State extends GameState {
+
+	private static final String LEVEL_BOSS_MUSIC_NAME = &quot;level1boss&quot;;
+	private ArrayList&lt;EnergyParticle&gt; energyParticles;
+	private Piece tlp;
+	private Piece trp;
+	private Piece blp;
+	private Piece brp;
+	private Spirit spirit;
+	private boolean flash;
+	private boolean eventBossDead;
+
+	public Level4State(GameStateManager gsm) {
+<span class="nc" id="L37">		super(gsm);</span>
+<span class="nc" id="L38">		gsm.level = GameStateManager.LEVEL4STATE - 1;</span>
+<span class="nc" id="L39">		init(GameStateManager.ACIDSTATE);</span>
+<span class="nc" id="L40">	}</span>
+
+	@Override
+	public void init(int nextLevel) {
+
+<span class="nc" id="L45">		super.init(nextLevel);</span>
+		// backgrounds
+<span class="nc" id="L47">		temple = new Background(&quot;/Backgrounds/temple.gif&quot;, 0.5, 0);</span>
+
+		// tilemap
+<span class="nc" id="L50">		generateTileMap(&quot;/Maps/level4.map&quot;, 140, 0, false);</span>
+
+<span class="nc" id="L52">		setupGameObjects(50, 190, 160, 154, true);</span>
+<span class="nc" id="L53">		setupMusic(LEVEL_BOSS_MUSIC_NAME, &quot;/Music/level1boss.mp3&quot;, false);</span>
+
+<span class="nc" id="L55">		energyParticles = new ArrayList&lt;&gt;();</span>
+		// angelspop
+<span class="nc" id="L57">		tlp = new Piece(tileMap, new int[] { 0, 0, 10, 10 });</span>
+<span class="nc" id="L58">		trp = new Piece(tileMap, new int[] { 10, 0, 10, 10 });</span>
+<span class="nc" id="L59">		blp = new Piece(tileMap, new int[] { 0, 10, 10, 10 });</span>
+<span class="nc" id="L60">		brp = new Piece(tileMap, new int[] { 10, 10, 10, 10 });</span>
+<span class="nc" id="L61">		tlp.setPosition(152, 102);</span>
+<span class="nc" id="L62">		trp.setPosition(162, 102);</span>
+<span class="nc" id="L63">		blp.setPosition(152, 112);</span>
+<span class="nc" id="L64">		brp.setPosition(162, 112);</span>
+
+<span class="nc" id="L66">		enemyTypesInLevel = new EnemyType[] { EnemyType.SPIRIT };</span>
+<span class="nc" id="L67">		coords = new int[][] { new int[] { -9000, 9000 } };</span>
+<span class="nc" id="L68">		populateEnemies(enemyTypesInLevel, coords);</span>
+<span class="nc" id="L69">	}</span>
+
+	@Override
+	public void update() {
+
+<span class="nc" id="L74">		super.update();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		if (eventPortal)</span>
+<span class="nc" id="L76">			eventPortal();</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">		if (eventBossDead)</span>
+<span class="nc" id="L78">			eventBossDead();</span>
+		// update portal
+<span class="nc" id="L80">		portal.update();</span>
+
+		// update BATBAT
+<span class="nc" id="L83">		tlp.update();</span>
+<span class="nc" id="L84">		trp.update();</span>
+<span class="nc" id="L85">		blp.update();</span>
+<span class="nc" id="L86">		brp.update();</span>
+
+<span class="nc" id="L88">	}</span>
+
+	@Override
+	public void draw(Graphics2D g) {
+
+<span class="nc" id="L93">		super.draw(g);</span>
+		// draw angelspop
+<span class="nc" id="L95">		tlp.draw(g);</span>
+<span class="nc" id="L96">		trp.draw(g);</span>
+<span class="nc" id="L97">		blp.draw(g);</span>
+<span class="nc" id="L98">		brp.draw(g);</span>
+
+		// flash
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		if (flash) {</span>
+<span class="nc" id="L102">			g.setColor(java.awt.Color.WHITE);</span>
+<span class="nc" id="L103">			g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);</span>
+		}
+
+<span class="nc" id="L106">	}</span>
+
+	///////////////////////////////////////////////////////
+	//////////////////// EVENTS
+	///////////////////////////////////////////////////////
+
+	// level started
+	@Override
+	protected void eventStartFunc() {
+<span class="nc" id="L115">		super.eventStartFunc();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		if (eventCount == 1) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">			if (!portal.isOpened())</span>
+<span class="nc" id="L118">				tileMap.setShaking(true, 10);</span>
+<span class="nc" id="L119">			JukeBox.stop(&quot;level1&quot;);</span>
+		}
+<span class="nc" id="L121">	}</span>
+
+	// finished level
+	@Override
+	protected void eventFinishFunc() {
+<span class="nc" id="L126">		eventCount++;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">		if (eventCount == 1) {</span>
+<span class="nc" id="L128">			tb.clear();</span>
+<span class="nc" id="L129">			tb.add(new Rectangle(GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2, 0, 0));</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		} else if (eventCount &gt; 1) {</span>
+<span class="nc" id="L131">			tb.get(0).x -= 6;</span>
+<span class="nc" id="L132">			tb.get(0).y -= 4;</span>
+<span class="nc" id="L133">			tb.get(0).width += 12;</span>
+<span class="nc" id="L134">			tb.get(0).height += 8;</span>
+		}
+<span class="nc bnc" id="L136" title="All 2 branches missed.">		if (eventCount == 60) {</span>
+<span class="nc" id="L137">			PlayerSave.setHealth(player.getHealth());</span>
+<span class="nc" id="L138">			PlayerSave.setLives(player.getLives());</span>
+<span class="nc" id="L139">			PlayerSave.setTime(player.getTime());</span>
+<span class="nc" id="L140">			gsm.setState(GameStateManager.ACIDSTATE);</span>
+		}
+
+<span class="nc" id="L143">	}</span>
+
+	private void eventPortal() {
+<span class="nc" id="L146">		eventCount++;</span>
+<span class="nc bnc" id="L147" title="All 4 branches missed.">		if (eventCount == 1 &amp;&amp; portal.isOpened()) {</span>
+<span class="nc" id="L148">			eventCount = 360;</span>
+
+		}
+<span class="nc bnc" id="L151" title="All 4 branches missed.">		if (eventCount &gt; 60 &amp;&amp; eventCount &lt; 180) {</span>
+<span class="nc" id="L152">			Random rnd = new Random();</span>
+<span class="nc" id="L153">			energyParticles.add(new EnergyParticle(tileMap, 157, 107, rnd.nextInt() * 4));</span>
+		}
+<span class="nc bnc" id="L155" title="All 4 branches missed.">		if (eventCount &gt;= 160 &amp;&amp; eventCount &lt;= 180) {</span>
+<span class="nc bnc" id="L156" title="All 4 branches missed.">			flash = eventCount % 4 == 0 || eventCount % 4 == 1;</span>
+		}
+<span class="nc bnc" id="L158" title="All 2 branches missed.">		if (eventCount == 181) {</span>
+<span class="nc" id="L159">			tileMap.setShaking(false, 0);</span>
+<span class="nc" id="L160">			flash = false;</span>
+<span class="nc" id="L161">			tlp.setVector(-0.3, -0.3);</span>
+<span class="nc" id="L162">			trp.setVector(0.3, -0.3);</span>
+<span class="nc" id="L163">			blp.setVector(-0.3, 0.3);</span>
+<span class="nc" id="L164">			brp.setVector(0.3, 0.3);</span>
+<span class="nc" id="L165">			player.setEmote(Player.SURPRISED_EMOTE);</span>
+		}
+<span class="nc bnc" id="L167" title="All 2 branches missed.">		if (eventCount == 240) {</span>
+<span class="nc" id="L168">			tlp.setVector(0, -5);</span>
+<span class="nc" id="L169">			trp.setVector(0, -5);</span>
+<span class="nc" id="L170">			blp.setVector(0, -5);</span>
+<span class="nc" id="L171">			brp.setVector(0, -5);</span>
+		}
+<span class="nc bnc" id="L173" title="All 2 branches missed.">		if (eventCount == 300) {</span>
+<span class="nc" id="L174">			player.setEmote(Player.NONE_EMOTE);</span>
+<span class="nc" id="L175">			portal.setOpening();</span>
+		}
+<span class="nc bnc" id="L177" title="All 2 branches missed.">		if (eventCount == 360) {</span>
+<span class="nc" id="L178">			flash = true;</span>
+<span class="nc" id="L179">			spirit.setPosition(160, 160);</span>
+			RedEnergy de;
+<span class="nc bnc" id="L181" title="All 2 branches missed.">			for (int i = 0; i &lt; 20; i++) {</span>
+<span class="nc" id="L182">				de = new RedEnergy(tileMap);</span>
+<span class="nc" id="L183">				de.setPosition(160, 160);</span>
+<span class="nc" id="L184">				de.setVector(Math.random() * 10 - 5, Math.random() * -2 - 3);</span>
+<span class="nc" id="L185">				enemies.add(de);</span>
+			}
+		}
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		if (eventCount == 362) {</span>
+<span class="nc" id="L189">			flash = false;</span>
+<span class="nc" id="L190">			JukeBox.loop(LEVEL_BOSS_MUSIC_NAME, 0, 60000, JukeBox.getFrames(LEVEL_BOSS_MUSIC_NAME) - 4000);</span>
+		}
+<span class="nc bnc" id="L192" title="All 2 branches missed.">		if (eventCount == 420) {</span>
+<span class="nc" id="L193">			eventPortal = blockInput = false;</span>
+<span class="nc" id="L194">			eventCount = 0;</span>
+<span class="nc" id="L195">			spirit.setActive();</span>
+		}
+
+<span class="nc" id="L198">	}</span>
+
+	public void eventBossDead() {
+<span class="nc" id="L201">		eventCount++;</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">		if (eventCount == 1) {</span>
+<span class="nc" id="L203">			player.stop();</span>
+<span class="nc" id="L204">			JukeBox.stop(LEVEL_BOSS_MUSIC_NAME);</span>
+<span class="nc" id="L205">			enemies.clear();</span>
+		}
+<span class="nc bnc" id="L207" title="All 4 branches missed.">		if (eventCount &lt;= 120 &amp;&amp; eventCount % 15 == 0) {</span>
+<span class="nc" id="L208">			explosions.add(new Explosion(tileMap, spirit.getx(), spirit.gety()));</span>
+<span class="nc" id="L209">			JukeBox.play(&quot;explode&quot;);</span>
+		}
+<span class="nc bnc" id="L211" title="All 2 branches missed.">		if (eventCount == 180) {</span>
+<span class="nc" id="L212">			JukeBox.play(&quot;fanfare&quot;);</span>
+		}
+<span class="nc bnc" id="L214" title="All 2 branches missed.">		if (eventCount == 390) {</span>
+<span class="nc" id="L215">			eventBossDead = false;</span>
+<span class="nc" id="L216">			eventCount = 0;</span>
+<span class="nc" id="L217">			eventFinish = true;</span>
+		}
+<span class="nc" id="L219">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Keys.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.handlers</a> &gt; <span class="el_source">Keys.java</span></div><h1>Keys.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.handlers;
+
+import java.awt.event.KeyEvent;
+
+/**
+ * @author ArtOfSoul
+ */
+
+// this class contains a boolean array of current and previous key states
+// for the 10 keys that are used for this game.
+// a key k is down when keyState[k] is true.
+
+public class Keys {
+
+	public static final int NUM_KEYS = 50;// 16;
+	public static final int UP = 0;
+	public static final int LEFT = 1;
+	public static final int DOWN = 2;
+	public static final int RIGHT = 3;
+	public static final int BUTTON1 = 4;
+	public static final int BUTTON2 = 5;
+	public static final int BUTTON3 = 6;
+	public static final int BUTTON4 = 7;
+	public static final int ENTER = 8;
+	public static final int ESCAPE = 9;
+	public static final int A = 10;
+	public static final int B = 11;
+	public static final int C = 12;
+	public static final int D = 13;
+	public static final int E = 14;
+	public static final int F = 15;
+	public static final int G = 16;
+	public static final int H = 17;
+	public static final int J = 18;
+	public static final int K = 19;
+	public static final int L = 20;
+	public static final int M = 21;
+	public static final int N = 22;
+	public static final int P = 23;
+	public static final int Q = 24;
+	public static final int R = 25;
+	public static final int T = 26;
+	public static final int Z = 27;
+	public static final int W = 28;
+	public static final int Y = 29;
+	public static final int X = 30;
+	public static final int I = 31;
+	public static final int U = 32;
+	public static final int O = 33;
+	public static final int S = 34;
+	public static final int V = 47;
+	public static final int BACK = 35;
+	public static final int NULL = 36;
+	public static final int ONE = 37;
+	public static final int TWO = 38;
+	public static final int THREE = 39;
+	public static final int FOUR = 40;
+	public static final int FIVE = 41;
+	public static final int SIX = 42;
+	public static final int SEVEN = 43;
+	public static final int EIGHT = 44;
+	public static final int NINE = 45;
+	public static final int SHIFT = 46;
+<span class="nc" id="L64">	private static final boolean[] KEY_STATE = new boolean[NUM_KEYS];</span>
+<span class="nc" id="L65">	private static boolean[] prevKeyState = new boolean[NUM_KEYS];</span>
+
+<span class="nc" id="L67">	private Keys() {</span>
+<span class="nc" id="L68">		throw new IllegalStateException(&quot;Utility Class&quot;);</span>
+	}
+
+	public static void keySet1(int i, boolean b) {
+<span class="nc bnc" id="L72" title="All 2 branches missed.">		if (i == KeyEvent.VK_UP)</span>
+<span class="nc" id="L73">			getKeyState()[UP] = b;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		else if (i == KeyEvent.VK_LEFT)</span>
+<span class="nc" id="L75">			getKeyState()[LEFT] = b;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">		else if (i == KeyEvent.VK_DOWN)</span>
+<span class="nc" id="L77">			getKeyState()[DOWN] = b;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">		else if (i == KeyEvent.VK_RIGHT)</span>
+<span class="nc" id="L79">			getKeyState()[RIGHT] = b;</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">		else if (i == KeyEvent.VK_SPACE)</span>
+<span class="nc" id="L81">			getKeyState()[BUTTON1] = b;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">		else if (i == KeyEvent.VK_E)</span>
+<span class="nc" id="L83">			getKeyState()[BUTTON2] = b;</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">		else if (i == KeyEvent.VK_X)</span>
+<span class="nc" id="L85">			getKeyState()[BUTTON3] = b;</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Y)</span>
+<span class="nc" id="L87">			getKeyState()[BUTTON4] = b;</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">		else if (i == KeyEvent.VK_ENTER)</span>
+<span class="nc" id="L89">			getKeyState()[ENTER] = b;</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">		else if (i == KeyEvent.VK_ESCAPE)</span>
+<span class="nc" id="L91">			getKeyState()[ESCAPE] = b;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">		else if (i == KeyEvent.VK_SHIFT)</span>
+<span class="nc" id="L93">			getKeyState()[SHIFT] = b;</span>
+		// TODO
+<span class="nc bnc" id="L95" title="All 2 branches missed.">		else if (i == KeyEvent.VK_A)</span>
+<span class="nc" id="L96">			getKeyState()[A] = b;</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">		else if (i == KeyEvent.VK_B)</span>
+<span class="nc" id="L98">			getKeyState()[B] = b;</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		else if (i == KeyEvent.VK_C)</span>
+<span class="nc" id="L100">			getKeyState()[C] = b;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		else if (i == KeyEvent.VK_D)</span>
+<span class="nc" id="L102">			getKeyState()[D] = b;</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">		else if (i == KeyEvent.VK_E)</span>
+<span class="nc" id="L104">			getKeyState()[E] = b;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		else if (i == KeyEvent.VK_F)</span>
+<span class="nc" id="L106">			getKeyState()[F] = b;</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		else if (i == KeyEvent.VK_G)</span>
+<span class="nc" id="L108">			getKeyState()[G] = b;</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">		else if (i == KeyEvent.VK_H)</span>
+<span class="nc" id="L110">			getKeyState()[H] = b;</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">		else if (i == KeyEvent.VK_J)</span>
+<span class="nc" id="L112">			getKeyState()[J] = b;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">		else if (i == KeyEvent.VK_K)</span>
+<span class="nc" id="L114">			getKeyState()[K] = b;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">		else if (i == KeyEvent.VK_L)</span>
+<span class="nc" id="L116">			getKeyState()[L] = b;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">		else if (i == KeyEvent.VK_M)</span>
+<span class="nc" id="L118">			getKeyState()[M] = b;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		else if (i == KeyEvent.VK_N)</span>
+<span class="nc" id="L120">			getKeyState()[N] = b;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		else if (i == KeyEvent.VK_P)</span>
+<span class="nc" id="L122">			getKeyState()[P] = b;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Q)</span>
+<span class="nc" id="L124">			getKeyState()[Q] = b;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		else if (i == KeyEvent.VK_R)</span>
+<span class="nc" id="L126">			getKeyState()[R] = b;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">		else if (i == KeyEvent.VK_T)</span>
+<span class="nc" id="L128">			getKeyState()[T] = b;</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Z)</span>
+<span class="nc" id="L130">			getKeyState()[Z] = b;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">		else if (i == KeyEvent.VK_W)</span>
+<span class="nc" id="L132">			getKeyState()[W] = b;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		else if (i == KeyEvent.VK_I)</span>
+<span class="nc" id="L134">			getKeyState()[I] = b;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">		else if (i == KeyEvent.VK_U)</span>
+<span class="nc" id="L136">			getKeyState()[U] = b;</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">		else if (i == KeyEvent.VK_O)</span>
+<span class="nc" id="L138">			getKeyState()[O] = b;</span>
+<span class="nc bnc" id="L139" title="All 2 branches missed.">		else if (i == KeyEvent.VK_S)</span>
+<span class="nc" id="L140">			getKeyState()[S] = b;</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">		else if (i == KeyEvent.VK_V)</span>
+<span class="nc" id="L142">			getKeyState()[V] = b;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">		else if (i == KeyEvent.VK_BACK_SPACE)</span>
+<span class="nc" id="L144">			getKeyState()[BACK] = b;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">		else if (i == KeyEvent.VK_0)</span>
+<span class="nc" id="L146">			getKeyState()[NULL] = b;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">		else if (i == KeyEvent.VK_1)</span>
+<span class="nc" id="L148">			getKeyState()[ONE] = b;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">		else if (i == KeyEvent.VK_2)</span>
+<span class="nc" id="L150">			getKeyState()[TWO] = b;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">		else if (i == KeyEvent.VK_3)</span>
+<span class="nc" id="L152">			getKeyState()[THREE] = b;</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">		else if (i == KeyEvent.VK_4)</span>
+<span class="nc" id="L154">			getKeyState()[FOUR] = b;</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">		else if (i == KeyEvent.VK_5)</span>
+<span class="nc" id="L156">			getKeyState()[FIVE] = b;</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">		else if (i == KeyEvent.VK_6)</span>
+<span class="nc" id="L158">			getKeyState()[SIX] = b;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">		else if (i == KeyEvent.VK_7)</span>
+<span class="nc" id="L160">			getKeyState()[SEVEN] = b;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">		else if (i == KeyEvent.VK_8)</span>
+<span class="nc" id="L162">			getKeyState()[EIGHT] = b;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">		else if (i == KeyEvent.VK_9)</span>
+<span class="nc" id="L164">			getKeyState()[NINE] = b;</span>
+<span class="nc" id="L165">	}</span>
+
+	public static void keySet2(int i, boolean b) {
+<span class="nc bnc" id="L168" title="All 2 branches missed.">		if (i == KeyEvent.VK_UP)</span>
+<span class="nc" id="L169">			getKeyState()[UP] = b;</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">		else if (i == KeyEvent.VK_A)</span>
+<span class="nc" id="L171">			getKeyState()[LEFT] = b;</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">		else if (i == KeyEvent.VK_DOWN)</span>
+<span class="nc" id="L173">			getKeyState()[DOWN] = b;</span>
+<span class="nc bnc" id="L174" title="All 2 branches missed.">		else if (i == KeyEvent.VK_D)</span>
+<span class="nc" id="L175">			getKeyState()[RIGHT] = b;</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">		else if (i == KeyEvent.VK_W)</span>
+<span class="nc" id="L177">			getKeyState()[BUTTON1] = b;</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		else if (i == KeyEvent.VK_R)</span>
+<span class="nc" id="L179">			getKeyState()[BUTTON2] = b;</span>
+<span class="nc bnc" id="L180" title="All 2 branches missed.">		else if (i == KeyEvent.VK_E)</span>
+<span class="nc" id="L181">			getKeyState()[BUTTON3] = b;</span>
+<span class="nc bnc" id="L182" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Q)</span>
+<span class="nc" id="L183">			getKeyState()[BUTTON4] = b;</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		else if (i == KeyEvent.VK_ENTER)</span>
+<span class="nc" id="L185">			getKeyState()[ENTER] = b;</span>
+<span class="nc bnc" id="L186" title="All 2 branches missed.">		else if (i == KeyEvent.VK_ESCAPE)</span>
+<span class="nc" id="L187">			getKeyState()[ESCAPE] = b;</span>
+<span class="nc bnc" id="L188" title="All 2 branches missed.">		else if (i == KeyEvent.VK_SHIFT)</span>
+<span class="nc" id="L189">			getKeyState()[SHIFT] = b;</span>
+		// TODO
+<span class="nc bnc" id="L191" title="All 2 branches missed.">		else if (i == KeyEvent.VK_A)</span>
+<span class="nc" id="L192">			getKeyState()[A] = b;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">		else if (i == KeyEvent.VK_B)</span>
+<span class="nc" id="L194">			getKeyState()[B] = b;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">		else if (i == KeyEvent.VK_C)</span>
+<span class="nc" id="L196">			getKeyState()[C] = b;</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">		else if (i == KeyEvent.VK_D)</span>
+<span class="nc" id="L198">			getKeyState()[D] = b;</span>
+<span class="nc bnc" id="L199" title="All 2 branches missed.">		else if (i == KeyEvent.VK_E)</span>
+<span class="nc" id="L200">			getKeyState()[E] = b;</span>
+<span class="nc bnc" id="L201" title="All 2 branches missed.">		else if (i == KeyEvent.VK_F)</span>
+<span class="nc" id="L202">			getKeyState()[F] = b;</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">		else if (i == KeyEvent.VK_G)</span>
+<span class="nc" id="L204">			getKeyState()[G] = b;</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">		else if (i == KeyEvent.VK_H)</span>
+<span class="nc" id="L206">			getKeyState()[H] = b;</span>
+<span class="nc bnc" id="L207" title="All 2 branches missed.">		else if (i == KeyEvent.VK_J)</span>
+<span class="nc" id="L208">			getKeyState()[J] = b;</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">		else if (i == KeyEvent.VK_K)</span>
+<span class="nc" id="L210">			getKeyState()[K] = b;</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">		else if (i == KeyEvent.VK_L)</span>
+<span class="nc" id="L212">			getKeyState()[L] = b;</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">		else if (i == KeyEvent.VK_M)</span>
+<span class="nc" id="L214">			getKeyState()[M] = b;</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">		else if (i == KeyEvent.VK_N)</span>
+<span class="nc" id="L216">			getKeyState()[N] = b;</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">		else if (i == KeyEvent.VK_P)</span>
+<span class="nc" id="L218">			getKeyState()[P] = b;</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Q)</span>
+<span class="nc" id="L220">			getKeyState()[Q] = b;</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">		else if (i == KeyEvent.VK_R)</span>
+<span class="nc" id="L222">			getKeyState()[R] = b;</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">		else if (i == KeyEvent.VK_T)</span>
+<span class="nc" id="L224">			getKeyState()[T] = b;</span>
+<span class="nc bnc" id="L225" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Z)</span>
+<span class="nc" id="L226">			getKeyState()[Z] = b;</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">		else if (i == KeyEvent.VK_W)</span>
+<span class="nc" id="L228">			getKeyState()[W] = b;</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">		else if (i == KeyEvent.VK_Y)</span>
+<span class="nc" id="L230">			getKeyState()[Y] = b;</span>
+<span class="nc bnc" id="L231" title="All 2 branches missed.">		else if (i == KeyEvent.VK_X)</span>
+<span class="nc" id="L232">			getKeyState()[X] = b;</span>
+<span class="nc bnc" id="L233" title="All 2 branches missed.">		else if (i == KeyEvent.VK_I)</span>
+<span class="nc" id="L234">			getKeyState()[I] = b;</span>
+<span class="nc bnc" id="L235" title="All 2 branches missed.">		else if (i == KeyEvent.VK_U)</span>
+<span class="nc" id="L236">			getKeyState()[U] = b;</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">		else if (i == KeyEvent.VK_O)</span>
+<span class="nc" id="L238">			getKeyState()[O] = b;</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">		else if (i == KeyEvent.VK_S)</span>
+<span class="nc" id="L240">			getKeyState()[S] = b;</span>
+<span class="nc bnc" id="L241" title="All 2 branches missed.">		else if (i == KeyEvent.VK_V)</span>
+<span class="nc" id="L242">			getKeyState()[V] = b;</span>
+<span class="nc bnc" id="L243" title="All 2 branches missed.">		else if (i == KeyEvent.VK_BACK_SPACE)</span>
+<span class="nc" id="L244">			getKeyState()[BACK] = b;</span>
+<span class="nc bnc" id="L245" title="All 2 branches missed.">		else if (i == KeyEvent.VK_0)</span>
+<span class="nc" id="L246">			getKeyState()[NULL] = b;</span>
+<span class="nc bnc" id="L247" title="All 2 branches missed.">		else if (i == KeyEvent.VK_1)</span>
+<span class="nc" id="L248">			getKeyState()[ONE] = b;</span>
+<span class="nc bnc" id="L249" title="All 2 branches missed.">		else if (i == KeyEvent.VK_2)</span>
+<span class="nc" id="L250">			getKeyState()[TWO] = b;</span>
+<span class="nc bnc" id="L251" title="All 2 branches missed.">		else if (i == KeyEvent.VK_3)</span>
+<span class="nc" id="L252">			getKeyState()[THREE] = b;</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">		else if (i == KeyEvent.VK_4)</span>
+<span class="nc" id="L254">			getKeyState()[FOUR] = b;</span>
+<span class="nc bnc" id="L255" title="All 2 branches missed.">		else if (i == KeyEvent.VK_5)</span>
+<span class="nc" id="L256">			getKeyState()[FIVE] = b;</span>
+<span class="nc bnc" id="L257" title="All 2 branches missed.">		else if (i == KeyEvent.VK_6)</span>
+<span class="nc" id="L258">			getKeyState()[SIX] = b;</span>
+<span class="nc bnc" id="L259" title="All 2 branches missed.">		else if (i == KeyEvent.VK_7)</span>
+<span class="nc" id="L260">			getKeyState()[SEVEN] = b;</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">		else if (i == KeyEvent.VK_8)</span>
+<span class="nc" id="L262">			getKeyState()[EIGHT] = b;</span>
+<span class="nc bnc" id="L263" title="All 2 branches missed.">		else if (i == KeyEvent.VK_9)</span>
+<span class="nc" id="L264">			getKeyState()[NINE] = b;</span>
+<span class="nc" id="L265">	}</span>
+
+	public static void update() {
+<span class="nc bnc" id="L268" title="All 2 branches missed.">		for (int i = 0; i &lt; NUM_KEYS; i++) {</span>
+<span class="nc" id="L269">			prevKeyState[i] = getKeyState()[i];</span>
+		}
+<span class="nc" id="L271">	}</span>
+
+	public static boolean isPressed(int i) {
+<span class="nc bnc" id="L274" title="All 4 branches missed.">		return getKeyState()[i] &amp;&amp; !prevKeyState[i];</span>
+	}
+
+	public static boolean anyKeyPress() {
+<span class="nc bnc" id="L278" title="All 2 branches missed.">		for (int i = 0; i &lt; NUM_KEYS; i++) {</span>
+<span class="nc bnc" id="L279" title="All 2 branches missed.">			if (getKeyState()[i])</span>
+<span class="nc" id="L280">				return true;</span>
+		}
+<span class="nc" id="L282">		return false;</span>
+	}
+
+	public static boolean[] getKeyState() {
+<span class="nc" id="L286">		return KEY_STATE;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>

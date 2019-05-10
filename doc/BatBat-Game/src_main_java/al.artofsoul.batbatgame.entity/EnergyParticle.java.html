@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="hu"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>EnergyParticle.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">BatBat-Game (1) (2019.04.23. 1:34:37)</a> &gt; <a href="../../index.html" class="el_group">BatBat-Game</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">al.artofsoul.batbatgame.entity</a> &gt; <span class="el_source">EnergyParticle.java</span></div><h1>EnergyParticle.java</h1><pre class="source lang-java linenums">package al.artofsoul.batbatgame.entity;
+
+import al.artofsoul.batbatgame.handlers.Content;
+import al.artofsoul.batbatgame.tilemap.TileMap;
+
+import java.awt.image.BufferedImage;
+
+/**
+ * @author ArtOfSoul
+ */
+
+public class EnergyParticle extends MapObject {
+
+    public static final int ENERGY_UP = 0;
+    public static final int ENERGY_LEFT = 1;
+    public static final int ENERGY_DOWN = 2;
+    public static final int ENERGY_RIGHT = 3;
+    private int count;
+    private boolean remove;
+    private BufferedImage[] sprites;
+
+    public EnergyParticle(TileMap tm, double x, double y, int dir) {
+<span class="nc" id="L23">        super(tm);</span>
+<span class="nc" id="L24">        this.x = x;</span>
+<span class="nc" id="L25">        this.y = y;</span>
+<span class="nc" id="L26">        double d1 = Math.random() * 2.5 - 1.25;</span>
+<span class="nc" id="L27">        double d2 = -Math.random() - 0.8;</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (dir == ENERGY_UP) {</span>
+<span class="nc" id="L29">            dx = d1;</span>
+<span class="nc" id="L30">            dy = d2;</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        } else if (dir == ENERGY_LEFT) {</span>
+<span class="nc" id="L32">            dx = d2;</span>
+<span class="nc" id="L33">            dy = d1;</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        } else if (dir == ENERGY_DOWN) {</span>
+<span class="nc" id="L35">            dx = d1;</span>
+<span class="nc" id="L36">            dy = -d2;</span>
+<span class="nc" id="L37">        } else {</span>
+<span class="nc" id="L38">            dx = -d2;</span>
+<span class="nc" id="L39">            dy = d1;</span>
+        }
+
+<span class="nc" id="L42">        count = 0;</span>
+<span class="nc" id="L43">        sprites = Content.getEnergyParticle()[0];</span>
+<span class="nc" id="L44">        animation.setFrames(sprites);</span>
+<span class="nc" id="L45">        animation.setDelay(-1);</span>
+<span class="nc" id="L46">    }</span>
+
+    public void update() {
+<span class="nc" id="L49">        x += dx;</span>
+<span class="nc" id="L50">        y += dy;</span>
+<span class="nc" id="L51">        count++;</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (count == 60)</span>
+<span class="nc" id="L53">            remove = true;</span>
+<span class="nc" id="L54">    }</span>
+
+    public boolean shouldRemove() {
+<span class="nc" id="L57">        return remove;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span>BatBat-Game (1) (2019.04.23. 1:34:37)</div></body></html>
